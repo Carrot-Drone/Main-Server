@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131120021255) do
+ActiveRecord::Schema.define(version: 20131120152415) do
 
   create_table "call_logs", force: true do |t|
     t.string   "phoneNumber"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "restaurant_id"
+    t.string   "device"
+    t.string   "campus"
   end
 
   create_table "restaurants", force: true do |t|
@@ -29,6 +31,7 @@ ActiveRecord::Schema.define(version: 20131120021255) do
     t.string   "coupon_path",  default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "campus"
   end
 
 end
