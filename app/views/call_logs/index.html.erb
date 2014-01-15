@@ -1,0 +1,29 @@
+<h2>Listing CallLogs </h2>
+
+<table class="table">
+  <tr>
+    <th> Id </th>
+    <th> Restaurant Name </th>
+    <th> Phone Number </th>
+    <th> Devise </th>
+    <th> Campus </th>
+    <th> Time </th>
+    <th></th>
+  </tr>
+
+  <% @call_logs.each do |log| %>
+    <tr>
+      <td><%= log.id %></td>
+      <% if log.restaurant != nil %>
+        <td><%= log.restaurant.name %> </td>
+      <% else %>
+        <td></td>
+      <% end %>
+      <td><%= log.phoneNumber %> </td>
+      <td><%= log.device %> </td>
+      <td><%= log.campus %> </td>
+      <td><%= log.created_at %></td>
+      <td><%= link_to 'Destroy', log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+</table>

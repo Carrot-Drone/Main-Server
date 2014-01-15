@@ -1,5 +1,8 @@
 Shadal::Application.routes.draw do
-post 'new_call' => 'call_logs#new_call'
+  resources :restaurants
+  resources :call_logs
+  post 'new_call' => 'call_logs#new'
+
 # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
