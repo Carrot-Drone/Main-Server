@@ -9,7 +9,7 @@ class CallLogsController < ApplicationController
     call_log.phoneNumber = @phoneNumber
     call_log.device = params[:device]
     call_log.campus = params[:campus]
-    restaurants = Restaurant.find_all_by_phone_number(@phoneNumber)
+    restaurants = Restaurant.where("phone_number = ?", @phoneNumber)
     if params[:campus] != nil
       restaurants = restaurants.select {|r| r.campus == params[:campus]}
     end
@@ -24,7 +24,7 @@ class CallLogsController < ApplicationController
     call_log.save
 
     if params[:name] != nil
-      restaurants = Restaurant.find_all_by_phone_number(@phoneNumber)
+      restaurants = Restaurant.where("phone_number = ?", @phoneNumber)
       restaurants = restaurants.select {|r| r.campus == params[:campus]}
       Rails.logger.info restaurants
 
@@ -44,7 +44,7 @@ class CallLogsController < ApplicationController
   end
 
   def index
-    @call_logs = CallLog.all.reverse
+    @call_logs = CallLog.order("id DESC").page(params[:page])
   end
 
   def destroy
