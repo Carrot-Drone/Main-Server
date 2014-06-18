@@ -20,6 +20,9 @@ gem 'twitter-bootstrap-rails'
 gem 'therubyracer'
 gem 'less-rails'
 
+# Use Paginator
+gem 'kaminari'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
