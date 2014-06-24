@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131120152415) do
+ActiveRecord::Schema.define(version: 20140624030155) do
 
   create_table "call_logs", force: true do |t|
     t.string   "phoneNumber"
@@ -22,16 +22,26 @@ ActiveRecord::Schema.define(version: 20131120152415) do
     t.string   "campus"
   end
 
+  create_table "menus", force: true do |t|
+    t.integer  "restaurant_id"
+    t.string   "section"
+    t.string   "name"
+    t.integer  "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "restaurants", force: true do |t|
     t.string   "name"
     t.string   "phone_number"
-    t.boolean  "flyer",        default: false
-    t.string   "flyer_path",   default: ""
-    t.boolean  "coupon",       default: false
-    t.string   "coupon_path",  default: ""
+    t.boolean  "flyer",         default: false
+    t.string   "flyer_path",    default: ""
+    t.boolean  "coupon",        default: false
+    t.string   "coupon_path",   default: ""
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "campus"
+    t.text     "phone_numbers"
   end
 
 end
