@@ -1,2 +1,44 @@
-<h1>Restaurants#show</h1>
-<p>Find me in app/views/restaurants/show.html.erb</p>
+<h1><%= @restaurant.name %></h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @restaurant.name %>
+</p>
+
+<p>
+  <strong>Phone Numbers:</strong>
+  <% @restaurant.phone_numbers.each do |p| %>
+    <%= p %>, 
+  <% end %>
+</p>
+
+<p>
+  <strong>Campus:</strong>
+  <%= @restaurant.campus %>
+</p>
+
+<p>
+  <strong>Categories:</strong>
+  ??
+</p>
+
+<p>
+<table>
+  <tr>
+    <th> Section </th>
+    <th> Menu </th>
+    <th> Price </th>
+  </tr>
+  <% @restaurant.menus.each do |m| %>
+    <tr>
+      <td><%= m.section %></td>
+      <td><%= m.name %></td>
+      <td><%= m.price %></td>
+    </tr>
+  <% end %>
+</table>
+</p>
+
+
+<%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
+<%= link_to 'Back', restaurants_path %>
