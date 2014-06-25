@@ -1,0 +1,16 @@
+<h1> Listing Campuses </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th> Campus </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @campuses.each do |campus| %>
+      <tr>
+        <td><%= link_to campus, :controller => 'restaurants', :action => 'index', :campus => campus %> </td>
+      </tr>
+    <% end %>
+

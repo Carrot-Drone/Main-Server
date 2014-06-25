@@ -1,10 +1,49 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+  skip_before_filter  :verify_authenticity_token
+  def new_menu
+    restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
+
+    restaurant.category = params[:categories]
+    restaurant.openingHours = params[:openingHours].to_f
+    restaurant.closingHours = params[:closingHours].to_f
+    restaurant.flyer = params[:flyer]
+    restaurant.coupon = params[:coupon]
+    restaurant.save
+
+    if restaurant.menus.count == 0
+       menus = params[:menu]
+       menus.each do |section, menus|
+         menus.each do |menu|
+            m = Menu.new
+            m.section = section
+            m.name = menu[0]
+            m.price = menu[1].to_i
+            m.save
+            restaurant.menus.push(m)
+         end
+       end
+    end
+    render :nothing => true
+  end
+
+
+  def campus
+    @campuses = Array.new
+    Restaurant.all.each do |res|
+      @campuses.push(res.campus)
+    end
+    @campuses.uniq!
+    @campuses.sort!
+  end
 
   # GET /restaurants
   # GET /restaurants.json
   def index
     @restaurants = Restaurant.all
+    if params[:campus] != nil
+      @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
+    end
   end
 
   # GET /restaurants/1
