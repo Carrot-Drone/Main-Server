@@ -1,6 +1,28 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
   skip_before_filter  :verify_authenticity_token
+
+  def checkForUpdate
+    restaurant_id = params[:restaurant_id]
+    updated_at = params[:updated_at]
+
+    @restaurant = Restaurant.find_by_id(restaurant_id)
+    if @restaurant == nil
+      @restaurant = Restaurant.select{|r| r.phone_number == params[:phone_number] and r.campus == params[:campus]}.first
+    end
+
+    if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
+      render nothing: true, status: :no_content 
+    else
+      render json: @restaurant, :include => :menus
+    end
+  end
+
+  def checkForResInCategory
+    @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
+    render json: @restaurants, :only => [:id, :name, :phone_number, :coupon, :flyer]
+  end
+
   def new_menu
     restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
 
@@ -26,7 +48,6 @@ class RestaurantsController < ApplicationController
     end
     render :nothing => true
   end
-
 
   def campus
     @campuses = Array.new
