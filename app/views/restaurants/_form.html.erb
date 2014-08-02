@@ -21,11 +21,12 @@
   </div>
   <div class="field">
     <%= f.label :campus %><br>
-    <%= f.text_field :campus %>
+    <%= f.select :campus, [['관악캠퍼스', 'Gwanak'], ['연건캠퍼스', 'Yongon']] %>
   </div>
   <div class="field">
     <%= f.label :category %><br>
-    <%= f.text_field :category %>
+    <% #f.text_field :category %>
+    <%= f.select :category, [['치킨', '치킨'], ['피자', '피자'], ['중국집', '중국집'], ['한식/분식', '한식/분식'], ['도시락/돈까스', '도시락/돈까스'], ['족발/보쌈', '족발/보쌈'], ['냉면', '냉면'], ['기타', '기타']] %>
   </div>
   <div class="field">
     <%= f.label :openingHours %><br>
