@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624235019) do
+ActiveRecord::Schema.define(version: 20140802121058) do
 
   create_table "call_logs", force: true do |t|
     t.string   "phoneNumber"
