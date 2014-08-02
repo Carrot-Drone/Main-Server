@@ -5,6 +5,10 @@ Shadal::Application.routes.draw do
   post 'new_call' => 'call_logs#new'
   post 'new_menu' => 'restaurants#new_menu'
 
+  # API for sync data on  mobile app
+  post 'checkForUpdate' => 'restaurants#checkForUpdate'
+  post 'checkForResInCategory' => 'restaurants#checkForResInCategory'
+
   root :to => 'restaurants#campus'
 
 # The priority is based upon order of creation: first created -> highest priority.
