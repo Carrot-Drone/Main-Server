@@ -20,7 +20,7 @@ class RestaurantsController < ApplicationController
 
   def checkForResInCategory
     @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
-    render json: @restaurants, :only => [:id, :name, :phone_number, :coupon, :flyer]
+    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer]
   end
 
   def new_menu
@@ -29,8 +29,8 @@ class RestaurantsController < ApplicationController
     restaurant.category = params[:categories]
     restaurant.openingHours = params[:openingHours].to_f
     restaurant.closingHours = params[:closingHours].to_f
-    restaurant.flyer = params[:flyer]
-    restaurant.coupon = params[:coupon]
+    restaurant.has_flyer = params[:has_flyer]
+    restaurant.has_coupon = params[:has_coupon]
     restaurant.save
 
     if restaurant.menus.count == 0
@@ -129,6 +129,6 @@ class RestaurantsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def restaurant_params
-      params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :flyer, :coupon)
+      params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon)
     end
 end
