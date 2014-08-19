@@ -1,6 +1,7 @@
 class Restaurant < ActiveRecord::Base
   has_many :call_logs
   has_many :menus
+  has_many :flyers
   serialize :phone_numbers
 
   def hasPhoneNumber?(phone_number)
