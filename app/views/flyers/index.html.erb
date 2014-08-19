@@ -1,0 +1,23 @@
+<h1>Listing flyers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Flyer</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @flyers.each do |flyer| %>
+      <tr>
+        <td><%= image_tag(flyer.flyer.thumb.url) if flyer.flyer? %></td>
+        <td><%= link_to 'Destroy', flyer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Back', @restaurant %>
+<%= link_to 'New Flyer', :controller => 'flyers', :action => 'new', :restaurant_id => params[:restaurant_id] %>

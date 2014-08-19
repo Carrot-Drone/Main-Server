@@ -2,6 +2,7 @@ Shadal::Application.routes.draw do
   resources :restaurants
   resources :menus
   resources :call_logs
+  resources :flyers
   post 'new_call' => 'call_logs#new'
   post 'new_menu' => 'restaurants#new_menu'
 
