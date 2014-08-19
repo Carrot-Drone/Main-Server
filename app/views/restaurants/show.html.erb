@@ -53,5 +53,6 @@
 </table>
 </p>
 <%= link_to 'Edit Menus', {:controller => 'menus', :action => 'index', :restaurant_id => @restaurant.id } %>
+<%= link_to 'Edit Flyers', {:controller => 'flyers', :action => 'index', :restaurant_id => @restaurant.id } %>
 <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
 <%= link_to 'Back', restaurants_path(:campus => @restaurant.campus) %>

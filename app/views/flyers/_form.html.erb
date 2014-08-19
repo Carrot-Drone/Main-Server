@@ -1,0 +1,33 @@
+<%= form_for @flyer, :html => {:multipart => true} do |f| %>
+  <% if @flyer.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@flyer.errors.count, "error") %> prohibited this flyer from being saved:</h2>
+
+      <ul>
+      <% @flyer.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :flyer %>
+    <%= image_tag(@flyer.flyer_url) if @flyer.flyer? %>
+    <%= f.file_field :flyer %>
+    <%= f.hidden_field :flyer_cache %>
+  </div>
+
+  <div>
+    <%= f.check_box :remove_flyer %>
+    Remove Flyer
+  </div>
+
+  <div class="field">
+    <%= f.hidden_field :restaurant_id, :value => params[:restaurant_id] %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
