@@ -14,7 +14,8 @@ class RestaurantsController < ApplicationController
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
       render nothing: true, status: :no_content 
     else
-      render json: @restaurant, :include => :menus
+      #render json: @restaurant, :include => :menus
+      render json: @restaurant, :methods => [:flyers_url], :include => :menus
     end
   end
 
@@ -34,17 +35,17 @@ class RestaurantsController < ApplicationController
     restaurant.save
 
     if restaurant.menus.count == 0
-       menus = params[:menu]
-       menus.each do |section, menus|
-         menus.each do |menu|
-            m = Menu.new
-            m.section = section
-            m.name = menu[0]
-            m.price = menu[1].to_i
-            m.save
-            restaurant.menus.push(m)
-         end
-       end
+      menus = params[:menu]
+      menus.each do |section, menus|
+        menus.each do |menu|
+          m = Menu.new
+          m.section = section
+          m.name = menu[0]
+          m.price = menu[1].to_i
+          m.save
+          restaurant.menus.push(m)
+        end
+      end
     end
     render :nothing => true
   end
@@ -122,13 +123,13 @@ class RestaurantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_restaurant
-      @restaurant = Restaurant.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def restaurant_params
-      params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def restaurant_params
+    params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer)
+  end
 end
