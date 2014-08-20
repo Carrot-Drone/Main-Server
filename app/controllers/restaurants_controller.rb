@@ -2,6 +2,10 @@ class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
   skip_before_filter  :verify_authenticity_token
 
+  def allDataGwanak
+    render json: Restaurant.select{|r| r.campus == "Gwanak"}, :methods => [:flyers_url], :include => :menus
+  end
+
   def checkForUpdate
     restaurant_id = params[:restaurant_id]
     updated_at = params[:updated_at]
