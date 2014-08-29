@@ -9,6 +9,9 @@ class RestaurantsController < ApplicationController
   def checkForUpdate
     restaurant_id = params[:restaurant_id]
     updated_at = params[:updated_at]
+    if updated_at == nil
+      updated_at = "12:00"
+    end
 
     @restaurant = Restaurant.find_by_id(restaurant_id)
     if @restaurant == nil
