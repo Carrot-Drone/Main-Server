@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140819135951) do
+ActiveRecord::Schema.define(version: 20140829082507) do
 
   create_table "call_logs", force: true do |t|
     t.string   "phoneNumber"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 20140819135951) do
     t.string   "category"
     t.float    "openingHours"
     t.float    "closingHours"
+    t.boolean  "is_new",        default: false
   end
 
 end
