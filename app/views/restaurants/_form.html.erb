@@ -29,11 +29,11 @@
   </div>
   <div class="field">
     <%= f.label :openingHours %><br>
-    <%= f.number_field :openingHours %>
+    <%= f.number_field :openingHours, step: 0.1 %>
   </div>
   <div class="field">
     <%= f.label :closingHours %><br>
-    <%= f.number_field :closingHours %>
+    <%= f.number_field :closingHours, step: 0.1 %>
   </div>
   <div class="field">
     <%= f.label :has_flyer %><br>
