@@ -37,6 +37,13 @@ class RestaurantsController < ApplicationController
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
 
+  def rank
+    year = params["year"]
+    month = params["month"]
+    @restaurants = Restaurant.all.sort {|a,b| b.call_logs_with(year, month).count <=> a.call_logs_with(year, month).count }
+
+  end
+
   def new_menu
     restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
 

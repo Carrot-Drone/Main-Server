@@ -6,6 +6,7 @@ Shadal::Application.routes.draw do
   resources :flyers
   post 'new_call' => 'call_logs#new'
   post 'new_menu' => 'restaurants#new_menu'
+  get 'rank'      => 'restaurants#rank'
 
   # API for sync data on  mobile app
   post 'checkForUpdate' => 'restaurants#checkForUpdate'
