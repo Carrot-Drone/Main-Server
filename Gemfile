@@ -31,6 +31,9 @@ gem 'kaminari'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
+# Use Devise to authenticate user
+gem 'devise'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 

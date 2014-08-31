@@ -1,4 +1,5 @@
 class RestaurantsController < ApplicationController
+  before_action :authenticate_admin!, :only => [:index, :show, :edit, :new]
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
   skip_before_filter  :verify_authenticity_token
 
@@ -33,7 +34,7 @@ class RestaurantsController < ApplicationController
 
   def checkForResInCategory
     @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
-    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :updated_at]
+    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
 
   def new_menu
@@ -47,8 +48,8 @@ class RestaurantsController < ApplicationController
     restaurant.save
 
     if restaurant.menus.count == 0
-      menus = params[:menu]
-      menus.each do |section, menus|
+      menuss = params[:menu]
+      menuss.each do |section, menus|
         menus.each do |menu|
           m = Menu.new
           m.section = section
