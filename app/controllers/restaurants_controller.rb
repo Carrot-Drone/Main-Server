@@ -3,13 +3,18 @@ class RestaurantsController < ApplicationController
   skip_before_filter  :verify_authenticity_token
 
   def allDataGwanak
-    render json: Restaurant.select{|r| r.campus == "Gwanak"}, :methods => [:flyers_url], :include => :menus
+    @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
+    File.open(File.join(Rails.root, 'public', 'campus', 'Gwanak.json'), "w+:UTF-8") do |f|
+      f.write(@json.to_json)
+    end
+#    render json: Restaurant.select{|r| r.campus == "Gwanak"}, :methods => [:flyers_url], :include => :menus
+    render json: @json
   end
 
   def checkForUpdate
     restaurant_id = params[:restaurant_id]
     updated_at = params[:updated_at]
-    if updated_at == nil
+    if updated_at == nil or updated_at == ""
       updated_at = "12:00"
     end
 
@@ -28,7 +33,7 @@ class RestaurantsController < ApplicationController
 
   def checkForResInCategory
     @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
-    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer]
+    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :updated_at]
   end
 
   def new_menu
