@@ -15,4 +15,12 @@ class Restaurant < ActiveRecord::Base
     end
     return flyers
   end
+
+  def call_logs_with(year, month)
+    if year == nil or month == nil
+      return self.call_logs 
+    end
+    logs = self.call_logs
+    return logs.select! { |log| log.created_at.year == 2000 and log.created_at.month == month }
+  end
 end
