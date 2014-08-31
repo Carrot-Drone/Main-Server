@@ -1,4 +1,5 @@
 class FlyersController < ApplicationController
+  before_action :authenticate_admin!, :only => [:index, :show, :edit, :new]
   before_action :set_flyer, only: [:show, :edit, :update, :destroy]
 
   # GET /flyers
