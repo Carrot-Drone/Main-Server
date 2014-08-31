@@ -25,7 +25,6 @@
   </div>
   <div class="field">
     <%= f.label :category %><br>
-    <% #f.text_field :category %>
     <%= f.select :category, [['치킨', '치킨'], ['피자', '피자'], ['중국집', '중국집'], ['한식/분식', '한식/분식'], ['도시락/돈까스', '도시락/돈까스'], ['족발/보쌈', '족발/보쌈'], ['냉면', '냉면'], ['기타', '기타']] %>
   </div>
   <div class="field">
@@ -43,6 +42,10 @@
   <div class="field">
     <%= f.label :has_coupon %><br>
     <%= f.check_box :has_coupon%>
+  </div>
+  <div class="field">
+    <%= f.label :coupon_string %><br>
+    <%= f.text_field :coupon_string %>
   </div>
   <div class="field">
     <%= f.label :is_new %><br>
