@@ -33,7 +33,9 @@
   <strong> Flyer </strong>
   <%= @restaurant.has_flyer %><br>
   <strong> Coupon </strong>
-  <%= @restaurant.has_coupon %>
+  <%= @restaurant.has_coupon %><br>
+  <strong> New </strong>
+  <%= @restaurant.is_new %>
 </p>
 
 <p>
@@ -52,7 +54,7 @@
   <% end %>
 </table>
 </p>
-<%= link_to 'Edit Menus', {:controller => 'menus', :action => 'index', :restaurant_id => @restaurant.id } %>
-<%= link_to 'Edit Flyers', {:controller => 'flyers', :action => 'index', :restaurant_id => @restaurant.id } %>
-<%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
+<%= link_to 'Edit Restaurant', edit_restaurant_path(@restaurant) %> |
+<%= link_to 'Edit Menus', {:controller => 'menus', :action => 'index', :restaurant_id => @restaurant.id } %> |
+<%= link_to 'Edit Flyers', {:controller => 'flyers', :action => 'index', :restaurant_id => @restaurant.id } %> |
 <%= link_to 'Back', restaurants_path(:campus => @restaurant.campus) %>
