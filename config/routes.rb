@@ -1,4 +1,5 @@
 Shadal::Application.routes.draw do
+  devise_for :admins
   resources :restaurants
   resources :menus
   resources :call_logs
