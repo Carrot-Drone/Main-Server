@@ -1,4 +1,5 @@
 class MenusController < ApplicationController
+  before_action :authenticate_admin!, :only => [:index, :show, :edit, :new] 
   before_action :set_menu, only: [:show, :edit, :update, :destroy]
 
   # GET /menus
