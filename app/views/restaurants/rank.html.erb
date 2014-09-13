@@ -1,0 +1,24 @@
+<h1> Rank Restaurant </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th> Name </th>
+      <th> Campus </th>
+      <th> Number of Logs </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @restaurants.each do |restaurant| %>
+      <tr>
+        <td><%= restaurant.name %> </td>
+        <td><%= restaurant.campus %> </td>
+        <td><%= restaurant.call_logs.count %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+</br>
+
+
