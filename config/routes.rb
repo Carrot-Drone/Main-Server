@@ -11,6 +11,7 @@ Shadal::Application.routes.draw do
   # API for sync data on  mobile app
   post 'checkForUpdate' => 'restaurants#checkForUpdate'
   post 'checkForResInCategory' => 'restaurants#checkForResInCategory'
+  post 'checkForRestaurants' => 'restaurants#checkForRestaurants'
   get  'allDataGwanak' => 'restaurants#allDataGwanak'
 
   root :to => 'restaurants#campus'

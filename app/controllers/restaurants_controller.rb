@@ -5,9 +5,10 @@ class RestaurantsController < ApplicationController
 
   def allDataGwanak
     @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
-    File.open(File.join(Rails.root, 'public', 'campus', 'Gwanak.json'), "w+:UTF-8") do |f|
-      f.write(@json.to_json)
-    end
+    
+#    File.open(File.join(Rails.root, 'public', 'campus', 'Gwanak.json'), "w+:UTF-8") do |f|
+#      f.write(@json.to_json)
+#    end
 #    render json: Restaurant.select{|r| r.campus == "Gwanak"}, :methods => [:flyers_url], :include => :menus
     render json: @json
   end
@@ -34,6 +35,11 @@ class RestaurantsController < ApplicationController
 
   def checkForResInCategory
     @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
+    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
+  end
+
+  def checkForRestaurants
+    @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
 
