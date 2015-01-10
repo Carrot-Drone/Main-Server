@@ -12,6 +12,8 @@ Shadal::Application.routes.draw do
   post 'checkForUpdate' => 'restaurants#checkForUpdate'
   post 'checkForResInCategory' => 'restaurants#checkForResInCategory'
   post 'checkForRestaurants' => 'restaurants#checkForRestaurants'
+
+  get  'allRestaurants' => 'restaurants#allRestaurants'
   get  'allDataGwanak' => 'restaurants#allDataGwanak'
 
   root :to => 'restaurants#campus'
