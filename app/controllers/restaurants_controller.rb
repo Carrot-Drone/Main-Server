@@ -6,10 +6,12 @@ class RestaurantsController < ApplicationController
   def allDataGwanak
     @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
     
-#    File.open(File.join(Rails.root, 'public', 'campus', 'Gwanak.json'), "w+:UTF-8") do |f|
-#      f.write(@json.to_json)
-#    end
-#    render json: Restaurant.select{|r| r.campus == "Gwanak"}, :methods => [:flyers_url], :include => :menus
+    render json: @json
+  end
+
+  def allRestaurants
+    @json = Restaurant.select{|r| r.campus == params[:campus]}.to_json(:methods => [:flyers_url], :include => :menus)
+
     render json: @json
   end
 
