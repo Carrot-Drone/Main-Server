@@ -55,6 +55,9 @@ end
 gem 'carrierwave'
 gem 'mini_magick'
 
+# Use Active Admin
+gem 'activeadmin', github: 'activeadmin'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
