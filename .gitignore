@@ -31,3 +31,9 @@ public/assets/**
 *.png
 *.gif
 *.pdf
+
+/db/data.yml
+
+# Ignore script file
+script/*.sh
+!script/example_*.*

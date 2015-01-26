@@ -25,6 +25,12 @@ gem 'less-rails'
 # Use Paginator
 gem 'kaminari'
 
+# Use Yaml_db to manage database
+gem 'yaml_db'
+
+# Use mysl
+gem 'mysql2'
+
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
