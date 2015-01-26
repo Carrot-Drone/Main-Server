@@ -33,3 +33,7 @@ public/assets/**
 *.pdf
 
 /db/data.yml
+
+# Ignore script file
+script/*.sh
+!script/example_*.*
