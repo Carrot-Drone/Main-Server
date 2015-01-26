@@ -27,7 +27,7 @@ public/assets/**
 
 #Ignore Image files 
 *.jpg
-*.jpge
+*.jpeg
 *.png
 *.gif
 *.pdf
