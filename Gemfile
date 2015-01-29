@@ -58,6 +58,11 @@ gem 'mini_magick'
 # Use Active Admin
 gem 'activeadmin', github: 'activeadmin'
 
+# Manage Menu order
+gem 'activeadmin-sortable'
+gem 'acts_as_list', '>= 0.1.0'  
+
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 

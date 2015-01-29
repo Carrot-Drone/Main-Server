@@ -2,6 +2,10 @@ class MenusController < ApplicationController
   before_action :authenticate_admin!, :only => [:index, :show, :edit, :new] 
   before_action :set_menu, only: [:show, :edit, :update, :destroy]
 
+  def touch_public_parent
+    self.restaurant.touch 
+  end
+
   # GET /menus
   # GET /menus.json
   def index

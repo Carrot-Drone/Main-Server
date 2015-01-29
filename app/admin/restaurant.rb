@@ -27,19 +27,28 @@ ActiveAdmin.register Restaurant do
       li link_to "Flyers", admin_restaurant_flyers_path(restaurant)
     end
   end
+
 end
 
 ActiveAdmin.register Menu do
   belongs_to :restaurant
 
-  permit_params :section, :name, :price, :restaurant_id
+  permit_params :section, :name, :price, :position
 
+  config.sort_order = 'position_asc'
+  config.paginate = false
+
+  sortable
+  
   index do
+    sortable_handle_column
     selectable_column
     id_column
+    column :position
     column :section
     column :name
     column :price
+    column :updated_at
     actions
   end
 end
