@@ -1,6 +1,12 @@
 ActiveAdmin.register Restaurant do
   permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
 
+  controller do
+    def scoped_collection
+      Admin.owned_res(current_admin)
+    end
+  end
+
   sidebar "Restaurant Details", only: [:show, :edit] do
     ul do
       li link_to "Menus",    admin_restaurant_menus_path(restaurant)

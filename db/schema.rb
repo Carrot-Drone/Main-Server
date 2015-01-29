@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 20150129081101) do
     t.datetime "updated_at"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -43,16 +43,16 @@ ActiveRecord::Schema.define(version: 20150129081101) do
     t.datetime "updated_at"
   end
 
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
+  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "admins_tags", id: false, force: true do |t|
     t.integer "tag_id"
     t.integer "admin_id"
   end
 
-  add_index "admins_tags", ["admin_id"], name: "index_admins_tags_on_admin_id"
-  add_index "admins_tags", ["tag_id"], name: "index_admins_tags_on_tag_id"
+  add_index "admins_tags", ["admin_id"], name: "index_admins_tags_on_admin_id", using: :btree
+  add_index "admins_tags", ["tag_id"], name: "index_admins_tags_on_tag_id", using: :btree
 
   create_table "call_logs", force: true do |t|
     t.string   "phoneNumber"
