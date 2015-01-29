@@ -4,13 +4,11 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 development:
-  adapter: mysql2
+  adapter: sqlite3
   encoding: utf8
-  reconnect: false
-  database: shadal 
+  database: db/production.sqlite3
   pool: 5
-  username: shadal 
-  password: shadal
+  timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -25,8 +23,10 @@ test:
   password: shadal
 
 production:
-  adapter: sqlite3
+  adapter: mysql2
   encoding: utf8
-  database: db/production.sqlite3
+  reconnect: false
+  database: shadal 
   pool: 5
-  timeout: 5000
+  username: shadal 
+  password: shadal
