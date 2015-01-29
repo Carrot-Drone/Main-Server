@@ -20,3 +20,4 @@ ActiveAdmin.register Flyer do
 
   permit_params :flyer, :restaurant_id
 end
+
