@@ -15,8 +15,11 @@ ActiveAdmin.register Restaurant do
     inputs 'Details' do
       input :name
       input :phone_number
-      input :campus
-      input :category
+      input :campus, as: :select, collection: current_admin.tags.map{|x| x.tag_name},
+        include_blank: false
+      input :category, as: :select, collection: ['치킨', '피자', '중국집', '한식/분식', '도시락/돈까스', '족발/보쌈', '냉면', '기타'],
+        include_blank: false
+
       input :openingHours
       input :closingHours
       input :has_flyer
@@ -46,52 +49,6 @@ ActiveAdmin.register Restaurant do
 
 end
 
-ActiveAdmin.register Menu do
-  menu priority: 1
-  belongs_to :restaurant
-  navigation_menu :restaurant
-
-
-  permit_params :section, :name, :price, :position
-
-  config.sort_order = 'position_asc'
-  config.paginate = false
-
-  sortable
-
-  index do
-    panel "New Menu" do
-      @menu = Menu.new
-      params[:batch_action]
-      render partial: 'charts'
-    end
-    sortable_handle_column
-    selectable_column
-    id_column
-    column :position
-    column :section
-    column :name
-    column :price
-    column :updated_at
-    actions
-  end
-
-  form do |f|
-    inputs 'Details' do
-      input :section
-      input :name
-      input :price
-      actions
-    end
-  end
-
-  controller do
-    def index
-      @menu = Menu.new
-      super
-    end
-  end
-end
 
 ActiveAdmin.register Flyer do
   belongs_to :restaurant
