@@ -35,5 +35,5 @@ public/assets/**
 /db/data.yml
 
 # Ignore script file
-script/*.sh
+script/*.*
 !script/example_*.*
