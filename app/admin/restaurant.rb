@@ -27,6 +27,7 @@ ActiveAdmin.register Restaurant do
       input :coupon_string
       input :is_new
     end
+    actions
   end
 
   controller do
