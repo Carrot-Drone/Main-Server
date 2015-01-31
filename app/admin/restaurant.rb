@@ -1,4 +1,6 @@
 ActiveAdmin.register Restaurant do
+  permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
+
   index do
     selectable_column
     id_column
@@ -9,7 +11,20 @@ ActiveAdmin.register Restaurant do
     actions
   end
 
-  permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
+  form do |f|
+    inputs 'Details' do
+      input :name
+      input :phone_number
+      input :campus
+      input :category
+      input :openingHours
+      input :closingHours
+      input :has_flyer
+      input :has_coupon
+      input :coupon_string
+      input :is_new
+    end
+  end
 
   controller do
     def index
