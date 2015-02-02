@@ -1,4 +1,6 @@
 ActiveAdmin.register Restaurant do
+  belongs_to :campus, :class_name => "Campus"
+  navigation_menu :campus
   permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
 
   index do
@@ -8,6 +10,12 @@ ActiveAdmin.register Restaurant do
     column :name       
     column :phone_number
     column :campus
+    column "Menus" do |res|
+      link_to('메뉴', admin_restaurant_menus_path(res))
+    end
+    column "Flyer" do |res|
+      link_to('전단지', admin_restaurant_flyers_path(res))
+    end
     actions
   end
 
@@ -36,9 +44,11 @@ ActiveAdmin.register Restaurant do
       super
     end
     def scoped_collection
-      Admin.owned_res(current_admin).order('campus, category, name')
+      a = super
+      a = a.order('campus, category, name')
+      #Admin.owned_res(current_admin).order('campus, category, name')
     end
-  end
+ end
   
 
   sidebar "Restaurant Details", only: [:show, :edit] do
@@ -53,7 +63,6 @@ end
 
 ActiveAdmin.register Flyer do
   belongs_to :restaurant
-  navigation_menu :restaurant
 
   permit_params :flyer, :restaurant_id
 end

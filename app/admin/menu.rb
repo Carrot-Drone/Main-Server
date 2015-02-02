@@ -1,7 +1,6 @@
 ActiveAdmin.register Menu do
   menu priority: 1
   belongs_to :restaurant
-  navigation_menu :restaurant
 
   permit_params :section, :name, :price, :position
 

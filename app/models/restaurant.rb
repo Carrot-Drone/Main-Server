@@ -1,5 +1,5 @@
 class Restaurant < ActiveRecord::Base
-  belongs_to :campuses
+  belongs_to :campus_model, :class_name => "Campus", :foreign_key => "campus_id"
   has_many :call_logs
   has_many :menus, :order => "position ASC"
   has_many :flyers

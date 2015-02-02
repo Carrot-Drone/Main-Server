@@ -5,12 +5,12 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Shadal Call Logs"
+  config.site_title = "Shadal Admin Page"
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #
-  config.site_title_link = "/call_logs"
+  config.site_title_link = "/admin"
 
   # Set an optional image to be displayed for the header
   # instead of a string (overrides :site_title)
@@ -114,7 +114,7 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  config.root_to = 'restaurants#index'
+  config.root_to = 'campuses#index'
 
   # == Admin Comments
   #
@@ -151,7 +151,7 @@ ActiveAdmin.setup do |config|
   # Breadcrumbs are enabled by default. You can customize them for individual
   # resources or you can disable them globally from here.
   #
-  # config.breadcrumb = false
+  config.breadcrumb = false
 
   # == Register Stylesheets & Javascripts
   #
