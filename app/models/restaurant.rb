@@ -6,7 +6,7 @@ class Restaurant < ActiveRecord::Base
   serialize :phone_numbers
 
   validates :name, :phone_number, :campus, :category, presence: true
-  validates_format_of :phone_number, :with => /[0-9]+\-[0-9]+\-[0-9]/, :message => "올바른 형식의 전화번호를 입력해주세요.\n ex) 00-000-0000"
+  validates_format_of :phone_number, :with => /[0-9]+/, :message => "올바른 형식의 전화번호를 입력해주세요.\n ex) 00-000-0000"
 
   before_save :save_restaurants!
 
