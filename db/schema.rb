@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129131921) do
+ActiveRecord::Schema.define(version: 20150202060959) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -63,6 +63,14 @@ ActiveRecord::Schema.define(version: 20150129131921) do
     t.string   "campus"
   end
 
+  create_table "campuses", force: true do |t|
+    t.string   "name_eng"
+    t.string   "name_kor"
+    t.text     "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "flyers", force: true do |t|
     t.integer  "restaurant_id"
     t.datetime "created_at"
@@ -95,7 +103,10 @@ ActiveRecord::Schema.define(version: 20150129131921) do
     t.float    "openingHours"
     t.float    "closingHours"
     t.boolean  "is_new",        default: false
+    t.integer  "campus_id"
   end
+
+  add_index "restaurants", ["campus_id"], name: "index_restaurants_on_campus_id"
 
   create_table "tags", force: true do |t|
     t.string   "tag_name"

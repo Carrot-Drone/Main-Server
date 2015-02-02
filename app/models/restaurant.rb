@@ -1,4 +1,5 @@
 class Restaurant < ActiveRecord::Base
+  belongs_to :campuses
   has_many :call_logs
   has_many :menus, :order => "position ASC"
   has_many :flyers
