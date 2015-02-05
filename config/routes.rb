@@ -2,10 +2,10 @@ Shadal::Application.routes.draw do
   devise_for :admins
   ActiveAdmin.routes(self)
 
-  resources :restaurants
-  resources :menus
+  #resources :restaurants
+  #resources :menus
+  #resources :flyers
   resources :call_logs
-  resources :flyers
 
   post 'new_call' => 'call_logs#new'
   post 'new_menu' => 'restaurants#new_menu'
