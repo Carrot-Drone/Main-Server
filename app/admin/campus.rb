@@ -6,6 +6,7 @@ ActiveAdmin.register Campus do
     id_column
     column :name_eng
     column :name_kor
+    column :name_kor_short
     column :description
     column "Restaurants" do |campus|
       link_to('음식점 리스트', admin_campus_restaurants_path(campus))
@@ -15,6 +16,7 @@ ActiveAdmin.register Campus do
   form do |f|
     inputs 'Details' do
       input :name_kor
+      input :name_kor_short
       input :description
     end
     actions
