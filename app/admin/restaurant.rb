@@ -5,7 +5,6 @@ ActiveAdmin.register Restaurant do
 
   index do
     selectable_column
-    id_column
     column :category
     column :name       
     column :phone_number
@@ -39,6 +38,8 @@ ActiveAdmin.register Restaurant do
   end
 
   controller do
+    before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_restaurant, only: [:show, :edit, :update, :destroy]
     def index
       params[:order] = ""
       super
@@ -48,8 +49,23 @@ ActiveAdmin.register Restaurant do
       a = a.order('campus, category, name')
       #Admin.owned_res(current_admin).order('campus, category, name')
     end
- end
-  
+
+    private
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_restaurant
+      @restaurant = Restaurant.find(params[:id])
+    end
+
+    def authenticate_restaurant
+      if current_admin == nil
+        redirect_to :root
+      elsif not current_admin.tags.to_a.map {|x| x.tag_name}.include? @restaurant.campus_model.name_eng
+        redirect_to :root
+      end
+    end
+  end
+
 
   sidebar "Restaurant Details", only: [:show, :edit] do
     ul do
@@ -65,4 +81,23 @@ ActiveAdmin.register Flyer do
   belongs_to :restaurant
 
   permit_params :flyer, :restaurant_id
+  controller do
+    before_action :set_menu, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_menu, only: [:show, :edit, :update, :destroy]
+
+    private
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_flyer
+      @flyer = Flyer.find(params[:id])
+    end
+
+    def authenticate_flyer
+      if current_admin == nil
+        redirect_to :root
+      elsif not current_admin.tags.to_a.map {|x| x.tag_name}.include? @flyer.restaurant.campus_model.name_eng
+        redirect_to :root
+      end
+    end
+  end
 end

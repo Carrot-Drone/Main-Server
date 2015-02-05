@@ -12,7 +12,6 @@ ActiveAdmin.register Menu do
   index do
     sortable_handle_column
     selectable_column
-    id_column
     column :section
     column :name
     column :price
@@ -30,6 +29,8 @@ ActiveAdmin.register Menu do
   end
 
   controller do
+    before_action :set_menu, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_menu, only: [:show, :edit, :update, :destroy]
     def index
       @menu = Menu.new
       super
@@ -42,6 +43,20 @@ ActiveAdmin.register Menu do
     def create
       create! do |format|
         format.html { redirect_to admin_restaurant_menus_path  }
+      end
+    end
+    private
+
+    # Use callbacks to share common setup or constraints between actions.
+    def set_menu
+      @menu = Menu.find(params[:id])
+    end
+
+    def authenticate_menu
+      if current_admin == nil
+        redirect_to :root
+      elsif not current_admin.tags.to_a.map {|x| x.tag_name}.include? @menu.restaurant.campus_model.name_eng
+        redirect_to :root
       end
     end
   end

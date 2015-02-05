@@ -1,6 +1,7 @@
 class RestaurantsController < ApplicationController
   before_action :authenticate_admin!, :only => [:index, :show, :edit, :new]
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+
   skip_before_filter  :verify_authenticity_token
 
   def allRestaurants
@@ -47,71 +48,6 @@ class RestaurantsController < ApplicationController
     @campuses.sort!
   end
 
-  # GET /restaurants
-  # GET /restaurants.json
-  def index
-    @restaurants = Restaurant.all
-    if params[:campus] != nil
-      @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
-    end
-  end
-
-  # GET /restaurants/1
-  # GET /restaurants/1.json
-  def show
-  end
-
-  # GET /restaurants/new
-  def new
-    @restaurant = Restaurant.new
-  end
-
-  # GET /restaurants/1/edit
-  def edit
-  end
-
-  # POST /restaurants
-  # POST /restaurants.json
-  def create
-    @restaurant = Restaurant.new(restaurant_params)
-
-    respond_to do |format|
-      if @restaurant.save
-        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @restaurant }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @restaurant.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /restaurants/1
-  # PATCH/PUT /restaurants/1.json
-  def update
-    respond_to do |format|
-      if @restaurant.update(restaurant_params)
-        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @restaurant.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /restaurants/1
-  # DELETE /restaurants/1.json
-  def destroy
-    @restaurant.destroy
-    respond_to do |format|
-      format.html { redirect_to restaurants_url }
-      format.json { head :no_content }
-    end
-  end
-
-
-
   # Deprecated methods
   def allDataGwanak
     @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
@@ -150,8 +86,6 @@ class RestaurantsController < ApplicationController
     render :nothing => true
   end
 
- 
-  
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_restaurant
@@ -162,5 +96,67 @@ class RestaurantsController < ApplicationController
   def restaurant_params
     params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
   end
-
 end
+
+#  # GET /restaurants
+#  # GET /restaurants.json
+#  def index
+#    @restaurants = Restaurant.all
+#    if params[:campus] != nil
+#      @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
+#    end
+#  end
+#
+#  # GET /restaurants/1
+#  # GET /restaurants/1.json
+#  def show
+#  end
+#
+#  # GET /restaurants/new
+#  def new
+#    @restaurant = Restaurant.new
+#  end
+#
+#  # GET /restaurants/1/edit
+#  def edit
+#  end
+#
+#  # POST /restaurants
+#  # POST /restaurants.json
+#  def create
+#    @restaurant = Restaurant.new(restaurant_params)
+#
+#    respond_to do |format|
+#      if @restaurant.save
+#        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully created.' }
+#        format.json { render action: 'show', status: :created, location: @restaurant }
+#      else
+#        format.html { render action: 'new' }
+#        format.json { render json: @restaurant.errors, status: :unprocessable_entity }
+#      end
+#    end
+#  end
+#
+#  # PATCH/PUT /restaurants/1
+#  # PATCH/PUT /restaurants/1.json
+#  def update
+#    respond_to do |format|
+#      if @restaurant.update(restaurant_params)
+#        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully updated.' }
+#        format.json { head :no_content }
+#      else
+#        format.html { render action: 'edit' }
+#        format.json { render json: @restaurant.errors, status: :unprocessable_entity }
+#      end
+#    end
+#  end
+#
+#  # DELETE /restaurants/1
+#  # DELETE /restaurants/1.json
+#  def destroy
+#    @restaurant.destroy
+#    respond_to do |format|
+#      format.html { redirect_to restaurants_url }
+#      format.json { head :no_content }
+#    end
+#  end
