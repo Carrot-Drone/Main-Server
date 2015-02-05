@@ -14,9 +14,13 @@ class Admin < ActiveRecord::Base
 #  end
 
   def self.owned_campus(current_admin)
-    tags = current_admin.tags.to_a
-    tags.map! {|x| x.tag_name}
-    a = Campus.all.select {|x| tags.include? x.name_eng }
+    if current_admin.is_super_admin
+      a = Campus.all
+    else
+      tags = current_admin.tags.to_a
+      tags.map! {|x| x.tag_name}
+      a = Campus.all.select {|x| tags.include? x.name_eng }
+    end
     Campus.where(id: a.map(&:id))
   end
 end

@@ -60,7 +60,7 @@ ActiveAdmin.register Restaurant do
     def authenticate_restaurant
       if current_admin == nil
         redirect_to :root
-      elsif not current_admin.tags.to_a.map {|x| x.tag_name}.include? @restaurant.campus_model.name_eng
+      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @restaurant.campus_model.name_eng
         redirect_to :root
       end
     end
@@ -95,7 +95,7 @@ ActiveAdmin.register Flyer do
     def authenticate_flyer
       if current_admin == nil
         redirect_to :root
-      elsif not current_admin.tags.to_a.map {|x| x.tag_name}.include? @flyer.restaurant.campus_model.name_eng
+      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @flyer.restaurant.campus_model.name_eng
         redirect_to :root
       end
     end
