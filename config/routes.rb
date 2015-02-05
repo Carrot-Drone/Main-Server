@@ -23,7 +23,9 @@ Shadal::Application.routes.draw do
   get  'allRestaurants' => 'restaurants#allRestaurants'
   get  'allDataGwanak' => 'restaurants#allDataGwanak'
 
-  root :to => 'restaurants#campus'
+  get 'campuses' => 'campuses#campuses'
+
+  root :to => 'admin/campuses#index'
 
 # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

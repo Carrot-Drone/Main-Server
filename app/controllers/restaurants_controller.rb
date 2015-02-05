@@ -3,12 +3,6 @@ class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
   skip_before_filter  :verify_authenticity_token
 
-  def allDataGwanak
-    @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
-    
-    render json: @json
-  end
-
   def allRestaurants
     @json = Restaurant.select{|r| r.campus == params[:campus]}.to_json(:methods => [:flyers_url], :include => :menus)
 
@@ -35,11 +29,6 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  def checkForResInCategory
-    @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
-    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
-  end
-
   def checkForRestaurants
     @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
@@ -52,37 +41,8 @@ class RestaurantsController < ApplicationController
 
   end
 
-  def new_menu
-    restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
-
-    restaurant.category = params[:categories]
-    restaurant.openingHours = params[:openingHours].to_f
-    restaurant.closingHours = params[:closingHours].to_f
-    restaurant.has_flyer = params[:has_flyer]
-    restaurant.has_coupon = params[:has_coupon]
-    restaurant.save
-
-    if restaurant.menus.count == 0
-      menuss = params[:menu]
-      menuss.each do |section, menus|
-        menus.each do |menu|
-          m = Menu.new
-          m.section = section
-          m.name = menu[0]
-          m.price = menu[1].to_i
-          m.save
-          restaurant.menus.push(m)
-        end
-      end
-    end
-    render :nothing => true
-  end
-
   def campus
-    @campuses = Array.new
-    Restaurant.all.each do |res|
-      @campuses.push(res.campus)
-    end
+    @campuses = Campus.all.map {|x| x.name_kor}
     @campuses.uniq!
     @campuses.sort!
   end
@@ -150,6 +110,48 @@ class RestaurantsController < ApplicationController
     end
   end
 
+
+
+  # Deprecated methods
+  def allDataGwanak
+    @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
+    
+    render json: @json
+  end
+
+  def checkForResInCategory
+    @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
+    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
+  end
+
+  def new_menu
+    restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
+
+    restaurant.category = params[:categories]
+    restaurant.openingHours = params[:openingHours].to_f
+    restaurant.closingHours = params[:closingHours].to_f
+    restaurant.has_flyer = params[:has_flyer]
+    restaurant.has_coupon = params[:has_coupon]
+    restaurant.save
+
+    if restaurant.menus.count == 0
+      menuss = params[:menu]
+      menuss.each do |section, menus|
+        menus.each do |menu|
+          m = Menu.new
+          m.section = section
+          m.name = menu[0]
+          m.price = menu[1].to_i
+          m.save
+          restaurant.menus.push(m)
+        end
+      end
+    end
+    render :nothing => true
+  end
+
+ 
+  
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_restaurant
@@ -160,4 +162,5 @@ class RestaurantsController < ApplicationController
   def restaurant_params
     params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
   end
+
 end
