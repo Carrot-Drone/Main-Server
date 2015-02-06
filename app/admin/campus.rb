@@ -6,6 +6,7 @@ ActiveAdmin.register Campus do
     column :name_eng
     column :name_kor
     column :name_kor_short
+    column :email
     column :description
     column "Restaurants" do |campus|
       link_to('음식점 리스트', admin_campus_restaurants_path(campus))
