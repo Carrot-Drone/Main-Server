@@ -1,0 +1,1 @@
+0 * * * * /bin/bash -l -c "cd /home/swchoi06/ShadalServer && RAILS_ENV=production bundle exec rake db:data:dump_dir dir='backup/`date +\%Y-\%m-\%d-\%H:\%M`' --silent >> ./log/cron_log.log 2>&1"

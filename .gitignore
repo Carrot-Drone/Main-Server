@@ -32,7 +32,7 @@ public/assets/**
 *.gif
 *.pdf
 
-/db/data.yml
+/db/**/*.yml
 
 # Ignore script file
 script/*.*
