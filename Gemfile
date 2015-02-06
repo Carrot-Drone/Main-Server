@@ -27,6 +27,8 @@ gem 'kaminari'
 
 # Use Yaml_db to manage database
 gem 'yaml_db'
+gem 'whenever', :require => false
+
 
 # Use mysl
 gem 'mysql2'
