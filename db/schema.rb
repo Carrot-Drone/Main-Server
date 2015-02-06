@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205154746) do
+ActiveRecord::Schema.define(version: 20150206143038) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(version: 20150205154746) do
     t.datetime "updated_at",     null: false
     t.string   "name_kor_short"
   end
+
+  create_table "devices", force: true do |t|
+    t.string   "uuid",        null: false
+    t.string   "device_type", null: false
+    t.integer  "campus_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "devices", ["campus_id"], name: "index_devices_on_campus_id", using: :btree
 
   create_table "flyers", force: true do |t|
     t.integer  "restaurant_id"

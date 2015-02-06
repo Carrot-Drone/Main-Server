@@ -34,6 +34,24 @@ class RestaurantsController < ApplicationController
     @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
+  
+  def updateDevice
+    if params[:uuid] == nil or params[:device] == nil or params[:campus] == nil
+      render :nothing => true, :status => 400, :content_type => 'text/html'
+    end
+
+    @device = Device.find_by_uuid(params[:uuid])
+    if @device == nil
+      @device = Device.new
+      @device.uuid = params[:uuid]
+    end
+
+    @device.device_type = params[:device]
+    @device.campus = Campus.find_by_name_eng(params[:campus])
+    @device.save
+
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
 
   def rank
     year = params["year"]
@@ -96,6 +114,7 @@ class RestaurantsController < ApplicationController
   def restaurant_params
     params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
   end
+
 end
 
 #  # GET /restaurants

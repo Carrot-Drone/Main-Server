@@ -12,10 +12,6 @@ Shadal::Application.routes.draw do
   get 'rank'      => 'restaurants#rank'
 
   # API for sync data on  mobile app
-  post 'checkForUpdate' => 'restaurants#checkForUpdate'
-  post 'checkForResInCategory' => 'restaurants#checkForResInCategory'
-  post 'checkForRestaurants' => 'restaurants#checkForRestaurants'
-
   get 'checkForUpdate' => 'restaurants#checkForUpdate'
   get 'checkForResInCategory' => 'restaurants#checkForResInCategory'
   get 'checkForRestaurants' => 'restaurants#checkForRestaurants'
@@ -24,6 +20,13 @@ Shadal::Application.routes.draw do
   get  'allDataGwanak' => 'restaurants#allDataGwanak'
 
   get 'campuses' => 'campuses#campuses'
+
+  get 'updateDevice' => 'restaurants#updateDevice'
+
+  post 'checkForUpdate' => 'restaurants#checkForUpdate'
+  post 'checkForResInCategory' => 'restaurants#checkForResInCategory'
+  post 'checkForRestaurants' => 'restaurants#checkForRestaurants'
+
 
   root :to => 'admin/campuses#index'
 
