@@ -11,6 +11,12 @@ ActiveAdmin.register Campus do
     column "Restaurants" do |campus|
       link_to('음식점 리스트', admin_campus_restaurants_path(campus))
     end
+    column "# of res" do |campus|
+      raw campus.restaurants.count
+    end
+    column "# of user" do |campus|
+      raw campus.devices.count
+    end
   end 
 
   form do |f|

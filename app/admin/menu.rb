@@ -12,6 +12,7 @@ ActiveAdmin.register Menu do
   index do
     sortable_handle_column
     selectable_column
+    column :position
     column :section
     column :name
     column :price
