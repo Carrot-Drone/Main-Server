@@ -82,8 +82,8 @@ ActiveAdmin.register Flyer do
 
   permit_params :flyer, :restaurant_id
   controller do
-    before_action :set_menu, only: [:show, :edit, :update, :destroy]
-    before_action :authenticate_menu, only: [:show, :edit, :update, :destroy]
+    before_action :set_flyer, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_flyer, only: [:show, :edit, :update, :destroy]
 
     private
 

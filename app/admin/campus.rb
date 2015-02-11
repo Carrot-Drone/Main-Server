@@ -3,7 +3,6 @@ ActiveAdmin.register Campus do
   permit_params :name_kor, :description
 
   index do
-    column :name_eng
     column :name_kor
     column :name_kor_short
     column :email
