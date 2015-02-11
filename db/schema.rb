@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206155751) do
+ActiveRecord::Schema.define(version: 20150211021324) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -60,9 +60,12 @@ ActiveRecord::Schema.define(version: 20150206155751) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "restaurant_id"
-    t.string   "device"
+    t.string   "device_type"
     t.string   "campus"
+    t.integer  "device_id"
   end
+
+  add_index "call_logs", ["device_id"], name: "index_call_logs_on_device_id", using: :btree
 
   create_table "campuses", force: true do |t|
     t.string   "name_eng"
