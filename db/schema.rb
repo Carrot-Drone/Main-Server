@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 20150218115439) do
     t.datetime "updated_at"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace"
-  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "admins", force: true do |t|
     t.string   "email",                  default: "",    null: false
@@ -44,16 +44,16 @@ ActiveRecord::Schema.define(version: 20150218115439) do
     t.boolean  "is_super_admin",         default: false, null: false
   end
 
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
+  add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
+  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "admins_tags", id: false, force: true do |t|
     t.integer "tag_id"
     t.integer "admin_id"
   end
 
-  add_index "admins_tags", ["admin_id"], name: "index_admins_tags_on_admin_id"
-  add_index "admins_tags", ["tag_id"], name: "index_admins_tags_on_tag_id"
+  add_index "admins_tags", ["admin_id"], name: "index_admins_tags_on_admin_id", using: :btree
+  add_index "admins_tags", ["tag_id"], name: "index_admins_tags_on_tag_id", using: :btree
 
   create_table "call_logs", force: true do |t|
     t.string   "phoneNumber"
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20150218115439) do
     t.integer  "device_id"
   end
 
-  add_index "call_logs", ["device_id"], name: "index_call_logs_on_device_id"
+  add_index "call_logs", ["device_id"], name: "index_call_logs_on_device_id", using: :btree
 
   create_table "campuses", force: true do |t|
     t.string   "name_eng"
@@ -85,7 +85,7 @@ ActiveRecord::Schema.define(version: 20150218115439) do
     t.datetime "updated_at",  null: false
   end
 
-  add_index "devices", ["campus_id"], name: "index_devices_on_campus_id"
+  add_index "devices", ["campus_id"], name: "index_devices_on_campus_id", using: :btree
 
   create_table "flyers", force: true do |t|
     t.integer  "restaurant_id"
@@ -107,10 +107,10 @@ ActiveRecord::Schema.define(version: 20150218115439) do
   create_table "restaurants", force: true do |t|
     t.string   "name"
     t.string   "phone_number"
-    t.boolean  "has_flyer",                 default: false
-    t.string   "flyer_path",                default: ""
-    t.boolean  "has_coupon",                default: false
-    t.text     "coupon_string", limit: 255, default: ""
+    t.boolean  "has_flyer",     default: false
+    t.string   "flyer_path",    default: ""
+    t.boolean  "has_coupon",    default: false
+    t.text     "coupon_string"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "campus"
@@ -118,11 +118,11 @@ ActiveRecord::Schema.define(version: 20150218115439) do
     t.string   "category"
     t.float    "openingHours"
     t.float    "closingHours"
-    t.boolean  "is_new",                    default: false
+    t.boolean  "is_new",        default: false
     t.integer  "campus_id"
   end
 
-  add_index "restaurants", ["campus_id"], name: "index_restaurants_on_campus_id"
+  add_index "restaurants", ["campus_id"], name: "index_restaurants_on_campus_id", using: :btree
 
   create_table "tags", force: true do |t|
     t.string   "tag_name"

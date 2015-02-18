@@ -31,7 +31,7 @@ ActiveAdmin.register Restaurant do
       input :closingHours
       input :has_flyer
       input :has_coupon
-      input :coupon_string
+      input :coupon_string, label: "Notice"
       input :is_new
     end
     actions
