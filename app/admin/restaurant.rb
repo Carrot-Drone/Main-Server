@@ -42,10 +42,18 @@ ActiveAdmin.register Restaurant do
   controller do
     before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
     before_action :authenticate_restaurant, only: [:show, :edit, :update, :destroy]
+
     def index
       params[:order] = ""
       super
     end
+
+    def update
+      update! do |format|
+        format.html { redirect_to admin_campus_restaurants_path  }
+      end
+    end
+
     def scoped_collection
       a = super
       a = a.order('campus, category, name')
