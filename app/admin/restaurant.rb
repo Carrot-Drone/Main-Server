@@ -37,6 +37,8 @@ ActiveAdmin.register Restaurant do
     actions
   end
 
+  filter :name
+
   controller do
     before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
     before_action :authenticate_restaurant, only: [:show, :edit, :update, :destroy]

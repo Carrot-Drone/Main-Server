@@ -19,7 +19,7 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use Bootstrap 3
 gem 'twitter-bootstrap-rails'
-gem 'therubyracer'
+gem 'therubyracer', platforms: :ruby
 gem 'less-rails'
 
 # Use Paginator

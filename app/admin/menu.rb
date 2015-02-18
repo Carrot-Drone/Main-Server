@@ -46,8 +46,8 @@ ActiveAdmin.register Menu do
         format.html { redirect_to admin_restaurant_menus_path  }
       end
     end
-    private
 
+    private
     # Use callbacks to share common setup or constraints between actions.
     def set_menu
       @menu = Menu.find(params[:id])

@@ -5,7 +5,6 @@ class Menu < ActiveRecord::Base
   validates :section, :name, :price, presence: true
   before_validation :save_menu!
 
-
   private
     def save_menu!
       if self.price == nil
