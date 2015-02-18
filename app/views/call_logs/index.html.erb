@@ -22,7 +22,11 @@
         <td></td>
       <% end %>
       <td><%= log.phoneNumber %> </td>
-      <td><%= log.device %> </td>
+      <% if not log.device == nil %>
+        <td><%= log.device.uuid %> </td>
+      <% else %>
+        <td></td>
+      <% end %>
       <td><%= log.campus %> </td>
       <td><%= log.created_at %></td>
       <td><%= link_to 'Destroy', log, method: :delete, data: { confirm: 'Are you sure?' } %></td>

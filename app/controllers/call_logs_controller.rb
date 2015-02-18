@@ -2,7 +2,9 @@ class CallLogsController < ApplicationController
   skip_before_filter  :verify_authenticity_token
   def new
     @phoneNumber = params[:phoneNumber]
-    @phoneNumber = @phoneNumber.delete(' ')
+    if not @phoneNumber == nil
+      @phoneNumber = @phoneNumber.delete(' ')
+    end
 
     call_log = CallLog.new
     call_log.phoneNumber = @phoneNumber
