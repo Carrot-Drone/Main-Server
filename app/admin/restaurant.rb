@@ -8,7 +8,9 @@ ActiveAdmin.register Restaurant do
     column :category
     column :name       
     column :phone_number
-    column :campus
+    column "Campus" do |res|
+      raw res.campus_model.name_kor_short
+    end
     column "Menus" do |res|
       link_to('메뉴', admin_restaurant_menus_path(res))
     end
@@ -51,6 +53,12 @@ ActiveAdmin.register Restaurant do
     def update
       update! do |format|
         format.html { redirect_to admin_campus_restaurants_path  }
+      end
+    end
+
+    def delete
+      delete! do |format|
+        format.html { redirect_to admin_campus_restaurants_path }
       end
     end
 

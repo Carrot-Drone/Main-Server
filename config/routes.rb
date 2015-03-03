@@ -27,6 +27,7 @@ Shadal::Application.routes.draw do
   post 'checkForResInCategory' => 'restaurants#checkForResInCategory'
   post 'checkForRestaurants' => 'restaurants#checkForRestaurants'
 
+  get 'update_position'  => 'admin/menus#update_position'
 
   root :to => 'admin/campuses#index'
 

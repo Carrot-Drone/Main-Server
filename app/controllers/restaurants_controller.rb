@@ -19,7 +19,7 @@ class RestaurantsController < ApplicationController
 
     @restaurant = Restaurant.find_by_id(restaurant_id)
     if @restaurant == nil
-      @restaurant = Restaurant.select{|r| r.phone_number == params[:phone_number] and r.campus == params[:campus]}.first
+      @restaurant = Restaurant.select{|r| r.phone_number == params[:phone_number] and r.campus_model.name_eng == params[:campus]}.first
     end
 
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
@@ -31,7 +31,9 @@ class RestaurantsController < ApplicationController
   end
 
   def checkForRestaurants
-    @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
+    #@restaurants = Restaurant.select {|r| r.campus == params[:campus]}
+    @campus = Campus.find_by_name_eng(params[:campus])
+    @restaurants = @campus.restaurants
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
   
@@ -102,6 +104,20 @@ class RestaurantsController < ApplicationController
       end
     end
     render :nothing => true
+  end
+
+  def update_position
+    res_id = params[:restaurant_id]
+    res = Restaurant.find(res_id)
+    menus = res.menus
+
+    cnt = 1
+    menus.each do |menu|
+      menu.position = cnt
+      menu.save
+      puts menu.name.to_s + menu.position.to_s
+      cnt = cnt + 1
+    end
   end
 
   private
