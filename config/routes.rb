@@ -32,6 +32,9 @@ Shadal::Application.routes.draw do
 
   root :to => 'admin/campuses#index'
 
+  # App Minimum Version
+  get 'appMinimumVersion' => 'application#minimum_app_version'
+
 # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
