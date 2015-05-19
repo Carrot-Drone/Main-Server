@@ -17,9 +17,11 @@ class Admin < ActiveRecord::Base
     if current_admin.is_super_admin
       a = Campus.all
     else
-      tags = current_admin.tags.to_a
-      tags.map! {|x| x.tag_name}
-      a = Campus.all.select {|x| tags.include? x.name_eng }
+
+      #tags = current_admin.tags.to_a
+      #tags.map! {|x| x.tag_name}
+      #a = Campus.all.select {|x| tags.include? x.name_eng }
+      a = Campus.all.select {|x| x.email == current_admin.email}
     end
     Campus.where(id: a.map(&:id))
   end

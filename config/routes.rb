@@ -20,6 +20,7 @@ Shadal::Application.routes.draw do
   get  'allDataGwanak' => 'restaurants#allDataGwanak'
 
   get 'campuses' => 'campuses#campuses'
+  get 'campuses_all' => 'campuses#campuses_all'
 
   get 'updateDevice' => 'restaurants#updateDevice'
 
