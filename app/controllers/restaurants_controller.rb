@@ -5,7 +5,10 @@ class RestaurantsController < ApplicationController
   skip_before_filter  :verify_authenticity_token
 
   def allRestaurants
-    @json = Restaurant.select{|r| r.campus == params[:campus]}.to_json(:methods => [:flyers_url], :include => :menus)
+    @campus = Campus.find_by_name_eng(params[:campus])
+    @restaurants = @campus.restaurants
+    @json = @restaurants.to_json(:methods => [:flyers_url], :include => :menus)
+    #@json = Restaurant.select{|r| r.campus == params[:campus]}.to_json(:methods => [:flyers_url], :include => :menus)
 
     render json: @json
   end
@@ -76,8 +79,12 @@ class RestaurantsController < ApplicationController
   end
 
   def checkForResInCategory
-    @restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
+    @campus = Campus.find_by_name_eng(params[:campus])
+    @restaurants = @campus.restaurants.select {|r| r.category == params[:category]}
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
+
+    #@restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
+    #render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
 
   def new_menu

@@ -228,3 +228,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   whenever
   yaml_db
+
+BUNDLED WITH
+   1.10.2

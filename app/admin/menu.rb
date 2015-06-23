@@ -54,7 +54,13 @@ ActiveAdmin.register Menu do
     end
     def create
       create! do |format|
-        format.html { redirect_to admin_restaurant_menus_path  }
+        format.html { redirect_to admin_restaurant_menus_path }
+      end
+    end
+    
+    def destroy
+      destroy! do |format|
+        format.html { redirect_to admin_restaurant_menus_path }
       end
     end
 

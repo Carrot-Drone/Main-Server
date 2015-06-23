@@ -3,6 +3,7 @@ ActiveAdmin.register Restaurant do
   #navigation_menu :campus
   permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
 
+  current_admiin
 
   index do
     selectable_column
