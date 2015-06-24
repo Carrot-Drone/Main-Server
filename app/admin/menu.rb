@@ -1,5 +1,5 @@
 ActiveAdmin.register Menu do
-  menu priority: 1
+  menu priority: 2
   belongs_to :restaurant
 
   permit_params :section, :name, :price, :position
@@ -22,7 +22,11 @@ ActiveAdmin.register Menu do
 
   form do |f|
     inputs 'Details' do
-      input :section
+      if params[:section] == nil
+        input :section, :input_html => {:value => "nil"}
+      else
+        input :section, :input_html => {:value => params[:section]}
+      end
       input :name
       input :price
       actions
@@ -54,7 +58,8 @@ ActiveAdmin.register Menu do
     end
     def create
       create! do |format|
-        format.html { redirect_to admin_restaurant_menus_path }
+        #format.html { redirect_to admin_restaurant_menus_path }
+        format.html { redirect_to new_admin_restaurant_menu_path(params[:restaurant_id], {:section => @menu.section})}
       end
     end
     
