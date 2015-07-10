@@ -21,4 +21,6 @@ ActiveAdmin.register CallLog do
     column :device_type
     column :created_at
   end
+
+  config.filters = false
 end

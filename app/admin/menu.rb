@@ -23,7 +23,7 @@ ActiveAdmin.register Menu do
   form do |f|
     inputs 'Details' do
       if params[:section] == nil
-        input :section, :input_html => {:value => "nil"}
+        input :section, :input_html => {:value => ""}
       else
         input :section, :input_html => {:value => params[:section]}
       end
@@ -32,9 +32,6 @@ ActiveAdmin.register Menu do
       actions
     end
   end
-
-  filter :name
-    
 
   action_item only:[:index] do
     link_to "Update Position", :action => "update_position", :restaurant_id => params[:restaurant_id]
