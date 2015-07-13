@@ -4,8 +4,6 @@ class Admin < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_and_belongs_to_many :tags
-
 #  def self.owned_res(current_admin)
 #    tags = current_admin.tags.to_a
 #    tags.map! {|x| x.tag_name}
@@ -25,8 +23,4 @@ class Admin < ActiveRecord::Base
     end
     Campus.where(id: a.map(&:id))
   end
-end
-
-class Tag < ActiveRecord::Base
-  has_and_belongs_to_many :admins
 end
