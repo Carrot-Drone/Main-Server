@@ -40,17 +40,9 @@ ActiveAdmin.register Menu do
     link_to "Update Position", :action => "update_position", :restaurant_id => params[:restaurant_id]
   end
 
-  #action_item only:[:index] do
-  #  link_to "Update Position", :action => "update_position", :restaurant_id => menu.restaurant.id
-  #end
-
   controller do
     before_action :set_menu, only: [:show, :edit, :update, :destroy]
     before_action :authenticate_menu, only: [:show, :edit, :update, :destroy]
-    def index
-      @menu = Menu.new
-      super
-    end
     def update
       update! do |format|
         format.html { redirect_to admin_restaurant_menus_path }
@@ -58,11 +50,9 @@ ActiveAdmin.register Menu do
     end
     def create
       create! do |format|
-        #format.html { redirect_to admin_restaurant_menus_path }
         format.html { redirect_to new_admin_restaurant_menu_path(params[:restaurant_id], {:section => @menu.section})}
       end
     end
-    
     def destroy
       destroy! do |format|
         format.html { redirect_to admin_restaurant_menus_path }
@@ -71,8 +61,6 @@ ActiveAdmin.register Menu do
 
     def update_position
       res_id = params[:restaurant_id]
-      Rails.logger.info res_id
-      Rails.logger.info params 
       res = Restaurant.find(res_id)
       menus = res.menus
 

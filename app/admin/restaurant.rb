@@ -1,8 +1,6 @@
 ActiveAdmin.register Restaurant do
   belongs_to :campus, :class_name => "Campus"
-  #navigation_menu :campus
   permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
-
 
   index do
     selectable_column
@@ -67,7 +65,6 @@ ActiveAdmin.register Restaurant do
     end
 
     private
-
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
       @restaurant = Restaurant.find(params[:id])
@@ -89,5 +86,4 @@ ActiveAdmin.register Restaurant do
       li link_to "Flyers", admin_restaurant_flyers_path(restaurant)
     end
   end
-
 end

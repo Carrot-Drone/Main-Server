@@ -13,6 +13,5 @@ class ApplicationController < ActionController::Base
     @json[:minimum_android_version] = "300"
 
     render json: @json
-
   end
 end

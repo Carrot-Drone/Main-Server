@@ -1,5 +1,5 @@
 ActiveAdmin.register CallLog do
-  actions :all, :except => [:new, :show]
+  actions :all, :except => [:new, :edit, :show]
   index do
     column "Campus" do |call_log|
       restaurant = call_log.restaurant
@@ -20,6 +20,10 @@ ActiveAdmin.register CallLog do
     column :phoneNumber
     column :device_type
     column :created_at
+
+    if current_admin.is_super_admin == true
+      actions
+    end
   end
 
   config.filters = false

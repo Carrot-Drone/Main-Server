@@ -5,16 +5,13 @@ class Restaurant < ActiveRecord::Base
   has_many :flyers
   serialize :phone_numbers
 
-  #validates :name, :phone_number, :campus, :category, presence: true
   validates :name, :phone_number, :category, presence: true
   validates_format_of :phone_number, :with => /[0-9]+/, :message => "올바른 형식의 전화번호를 입력해주세요.\n ex) 00-000-0000"
 
   before_save :save_restaurants!
 
-
   def hasPhoneNumber?(phone_number)
     return self.phone_number == phone_number
-#    return self.phone_numbers.include?(phone_number)
   end
 
   def flyers_url
@@ -23,14 +20,6 @@ class Restaurant < ActiveRecord::Base
       flyers.push(flyer.flyer.url)
     end
     return flyers
-  end
-
-  def call_logs_with(year, month)
-    if year == nil or month == nil
-      return self.call_logs 
-    end
-    logs = self.call_logs
-    return logs.select! { |log| log.created_at.year == 2000 and log.created_at.month == month }
   end
 
   private 

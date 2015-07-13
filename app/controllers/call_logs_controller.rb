@@ -44,17 +44,6 @@ class CallLogsController < ApplicationController
     render :nothing => true
   end
 
-  def index
-    @call_logs = CallLog.order("id DESC").page(params[:page])
-  end
-
-  def destroy
-    @call_log = CallLog.find(params[:id])
-    @call_log.destroy
-
-    redirect_to call_logs_path
-  end
-
   def statistic
   end
 end

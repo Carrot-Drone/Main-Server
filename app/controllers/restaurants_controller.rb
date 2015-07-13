@@ -8,7 +8,6 @@ class RestaurantsController < ApplicationController
     @campus = Campus.find_by_name_eng(params[:campus])
     @restaurants = @campus.restaurants
     @json = @restaurants.to_json(:methods => [:flyers_url], :include => :menus)
-    #@json = Restaurant.select{|r| r.campus == params[:campus]}.to_json(:methods => [:flyers_url], :include => :menus)
 
     render json: @json
   end
@@ -58,19 +57,6 @@ class RestaurantsController < ApplicationController
     render :nothing => true, :status => 200, :content_type => 'text/html'
   end
 
-  def rank
-    year = params["year"]
-    month = params["month"]
-    @restaurants = Restaurant.all.sort {|a,b| b.call_logs_with(year, month).count <=> a.call_logs_with(year, month).count }
-
-  end
-
-  def campus
-    @campuses = Campus.all.map {|x| x.name_kor}
-    @campuses.uniq!
-    @campuses.sort!
-  end
-
   # Deprecated methods
   def allDataGwanak
     @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
@@ -82,9 +68,6 @@ class RestaurantsController < ApplicationController
     @campus = Campus.find_by_name_eng(params[:campus])
     @restaurants = @campus.restaurants.select {|r| r.category == params[:category]}
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
-
-    #@restaurants = Restaurant.select {|r| r.category == params[:category] and r.campus == params[:campus]}
-    #render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
 
   def new_menu
@@ -113,20 +96,6 @@ class RestaurantsController < ApplicationController
     render :nothing => true
   end
 
-  def update_position
-    res_id = params[:restaurant_id]
-    res = Restaurant.find(res_id)
-    menus = res.menus
-
-    cnt = 1
-    menus.each do |menu|
-      menu.position = cnt
-      menu.save
-      puts menu.name.to_s + menu.position.to_s
-      cnt = cnt + 1
-    end
-  end
-
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_restaurant
@@ -139,66 +108,3 @@ class RestaurantsController < ApplicationController
   end
 
 end
-
-#  # GET /restaurants
-#  # GET /restaurants.json
-#  def index
-#    @restaurants = Restaurant.all
-#    if params[:campus] != nil
-#      @restaurants = Restaurant.select {|r| r.campus == params[:campus]}
-#    end
-#  end
-#
-#  # GET /restaurants/1
-#  # GET /restaurants/1.json
-#  def show
-#  end
-#
-#  # GET /restaurants/new
-#  def new
-#    @restaurant = Restaurant.new
-#  end
-#
-#  # GET /restaurants/1/edit
-#  def edit
-#  end
-#
-#  # POST /restaurants
-#  # POST /restaurants.json
-#  def create
-#    @restaurant = Restaurant.new(restaurant_params)
-#
-#    respond_to do |format|
-#      if @restaurant.save
-#        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully created.' }
-#        format.json { render action: 'show', status: :created, location: @restaurant }
-#      else
-#        format.html { render action: 'new' }
-#        format.json { render json: @restaurant.errors, status: :unprocessable_entity }
-#      end
-#    end
-#  end
-#
-#  # PATCH/PUT /restaurants/1
-#  # PATCH/PUT /restaurants/1.json
-#  def update
-#    respond_to do |format|
-#      if @restaurant.update(restaurant_params)
-#        format.html { redirect_to @restaurant, notice: 'Restaurant was successfully updated.' }
-#        format.json { head :no_content }
-#      else
-#        format.html { render action: 'edit' }
-#        format.json { render json: @restaurant.errors, status: :unprocessable_entity }
-#      end
-#    end
-#  end
-#
-#  # DELETE /restaurants/1
-#  # DELETE /restaurants/1.json
-#  def destroy
-#    @restaurant.destroy
-#    respond_to do |format|
-#      format.html { redirect_to restaurants_url }
-#      format.json { head :no_content }
-#    end
-#  end

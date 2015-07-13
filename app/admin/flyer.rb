@@ -8,7 +8,6 @@ ActiveAdmin.register Flyer do
     before_action :authenticate_flyer, only: [:show, :edit, :update, :destroy]
 
     private
-
     # Use callbacks to share common setup or constraints between actions.
     def set_flyer
       @flyer = Flyer.find(params[:id])
