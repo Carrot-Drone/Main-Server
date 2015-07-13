@@ -19,7 +19,7 @@ class CallLogsController < ApplicationController
       end
     end
     if params[:campus] != nil
-      restaurant = restaurants.select {|r| r.campus_model.name_eng == params[:campus]}[0]
+      restaurant = restaurants.select {|r| r.campus.name_eng == params[:campus]}[0]
       restaurant.call_logs.push(call_log)
       restaurant.save
     end

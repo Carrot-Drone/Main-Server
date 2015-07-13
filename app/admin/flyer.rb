@@ -17,7 +17,7 @@ ActiveAdmin.register Flyer do
     def authenticate_flyer
       if current_admin == nil
         redirect_to :root
-      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @flyer.restaurant.campus_model.name_eng
+      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @flyer.restaurant.campus.name_eng
         redirect_to :root
       end
     end

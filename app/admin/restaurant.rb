@@ -10,7 +10,7 @@ ActiveAdmin.register Restaurant do
     column :name       
     column :phone_number
     column "Campus" do |res|
-      raw res.campus_model.name_kor_short
+      raw res.campus.name_kor_short
     end
     column "Menus" do |res|
       link_to('메뉴', admin_restaurant_menus_path(res))
@@ -62,13 +62,8 @@ ActiveAdmin.register Restaurant do
     end
 
     def scoped_collection
-      #res = Restaurant.all.select {|r| r.campus_model != nil}
-      #res.sort_by!{|r| [r.category, r.name]}
-      #Restaurant.where(id: res.map(&:id))
-      
       a = super
       a = a.order('category, name')
-      #Admin.owned_res(current_admin).order('campus, category, name')
     end
 
     private
@@ -81,7 +76,7 @@ ActiveAdmin.register Restaurant do
     def authenticate_restaurant
       if current_admin == nil
         redirect_to :root
-      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @restaurant.campus_model.name_eng
+      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @restaurant.campus.name_eng
         redirect_to :root
       end
     end

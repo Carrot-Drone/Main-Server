@@ -22,7 +22,7 @@ class RestaurantsController < ApplicationController
 
     @restaurant = Restaurant.find_by_id(restaurant_id)
     if @restaurant == nil
-      @restaurant = Restaurant.select{|r| r.phone_number == params[:phone_number] and r.campus_model.name_eng == params[:campus]}.first
+      @restaurant = Restaurant.select{|r| r.phone_number == params[:phone_number] and r.campus.name_eng == params[:campus]}.first
     end
 
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
