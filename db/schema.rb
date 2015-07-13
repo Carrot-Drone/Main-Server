@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303052403) do
+ActiveRecord::Schema.define(version: 20150713024018) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -67,6 +67,15 @@ ActiveRecord::Schema.define(version: 20150303052403) do
 
   add_index "call_logs", ["device_id"], name: "index_call_logs_on_device_id", using: :btree
 
+  create_table "campus_has_popup", id: false, force: true do |t|
+    t.integer "campuses_id",                null: false
+    t.integer "popup_id",                   null: false
+    t.boolean "status",      default: true, null: false
+  end
+
+  add_index "campus_has_popup", ["campuses_id"], name: "fk_campuses_has_popup_campuses_idx", using: :btree
+  add_index "campus_has_popup", ["popup_id"], name: "fk_campuses_has_popup_popup1_idx", using: :btree
+
   create_table "campuses", force: true do |t|
     t.string   "name_eng"
     t.string   "name_kor"
@@ -105,6 +114,23 @@ ActiveRecord::Schema.define(version: 20150303052403) do
     t.integer  "position"
   end
 
+  create_table "popup", force: true do |t|
+    t.string   "external_link"
+    t.text     "description",   limit: 255
+    t.datetime "created_at",                null: false
+  end
+
+  create_table "popup_has_device", id: false, force: true do |t|
+    t.integer  "popup_id",                            null: false
+    t.integer  "devices_id",                          null: false
+    t.string   "status",        limit: 9,             null: false
+    t.datetime "requestTime",                         null: false
+    t.integer  "responseAfter",           default: 0
+  end
+
+  add_index "popup_has_device", ["devices_id"], name: "fk_popup_has_devices_devices1_idx", using: :btree
+  add_index "popup_has_device", ["popup_id"], name: "fk_popup_has_devices_popup1_idx", using: :btree
+
   create_table "restaurants", force: true do |t|
     t.string   "name"
     t.string   "phone_number"
@@ -114,7 +140,6 @@ ActiveRecord::Schema.define(version: 20150303052403) do
     t.text     "coupon_string"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "campus"
     t.text     "phone_numbers"
     t.string   "category"
     t.float    "openingHours"

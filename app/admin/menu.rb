@@ -22,11 +22,14 @@ ActiveAdmin.register Menu do
 
   form do |f|
     inputs 'Details' do
-      if params[:section] == nil
-        input :section, :input_html => {:value => ""}
-      else
+      if params[:id] != nil
+       input :section
+      elsif params[:section] != nil
         input :section, :input_html => {:value => params[:section]}
+      else
+        input :section, :input_html => {:value => ""}
       end
+
       input :name
       input :price
       actions

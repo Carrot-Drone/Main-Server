@@ -25,8 +25,6 @@ ActiveAdmin.register Restaurant do
     inputs 'Details' do
       input :name
       input :phone_number
-      input :campus, as: :select, collection: Admin.owned_campus(current_admin).map {|x| x.name_kor_short},
-        include_blank: false
       input :category, as: :select, collection: ['치킨', '피자', '중국집', '한식/분식', '도시락/돈까스', '족발/보쌈', '냉면', '기타'],
         include_blank: false
 
@@ -64,8 +62,12 @@ ActiveAdmin.register Restaurant do
     end
 
     def scoped_collection
+      #res = Restaurant.all.select {|r| r.campus_model != nil}
+      #res.sort_by!{|r| [r.category, r.name]}
+      #Restaurant.where(id: res.map(&:id))
+      
       a = super
-      a = a.order('campus, category, name')
+      a = a.order('category, name')
       #Admin.owned_res(current_admin).order('campus, category, name')
     end
 
