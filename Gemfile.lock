@@ -201,7 +201,6 @@ DEPENDENCIES
   mini_magick
   mysql2
   rails (= 4.0.0)
-  sass-rails (~> 4.0.0)
   sdoc
   sqlite3
   thin
