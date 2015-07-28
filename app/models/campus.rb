@@ -1,5 +1,7 @@
 class Campus < ActiveRecord::Base
+  scope :name_kor, -> { order("name_kor ASC") }
+  default_scope { name_kor }
+
   has_many :restaurants
   has_many :devices
-  default_scope order('name_kor')
 end

@@ -1,7 +1,7 @@
 class Restaurant < ActiveRecord::Base
   belongs_to :campus
   has_many :call_logs
-  has_many :menus, :order => "position ASC"
+  has_many :menus, -> { order(:position)}
   has_many :flyers
   serialize :phone_numbers
 
