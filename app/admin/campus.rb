@@ -14,11 +14,14 @@ ActiveAdmin.register Campus do
     column :name_kor_short
     column :email
     column :description
-    column "Restaurants" do |campus|
-      link_to('음식점 리스트', admin_campus_restaurants_path(campus))
+    column "Categories" do |campus|
+      link_to('Categories', admin_campus_categories_path(campus))
     end
+    #column "Restaurants" do |campus|
+    #  link_to('음식점 리스트', admin_campus_restaurants_path(campus))
+    #end
     column "# of res" do |campus|
-      raw campus.restaurants.count
+      raw campus.categories.map {|c| c.restaurants }.flatten.count
     end
     column "# of user" do |campus|
       raw campus.devices.count

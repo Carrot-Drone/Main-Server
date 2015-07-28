@@ -1,15 +1,19 @@
 ActiveAdmin.register Restaurant do
-  belongs_to :campus, :class_name => "Campus"
+  #belongs_to :campus#, :class_name => "Campus"
+  belongs_to :category
   permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
 
   index do
     selectable_column
-    column :category
+    column "Campus" do |res|
+      raw Category.find(params[:category_id]).campus.name_kor_short
+    end   
+    column :category do |res|
+      raw Category.find(params[:category_id]).title
+    end
     column :name       
     column :phone_number
-    column "Campus" do |res|
-      raw res.campus.name_kor_short
-    end
+
     column "Menus" do |res|
       link_to('메뉴', admin_restaurant_menus_path(res))
     end
@@ -23,7 +27,9 @@ ActiveAdmin.register Restaurant do
     inputs 'Details' do
       input :name
       input :phone_number
-      input :category, as: :select, collection: ['치킨', '피자', '중국집', '한식/분식', '도시락/돈까스', '족발/보쌈', '냉면', '기타'],
+      #input :category, as: :select, collection: ['치킨', '피자', '중국집', '한식/분식', '도시락/돈까스', '족발/보쌈', '냉면', '기타'],
+      #  include_blank: false
+      input :category, as: :select, collection: [Category.find(params[:category_id]).title],
         include_blank: false
 
       input :openingHours
@@ -40,22 +46,31 @@ ActiveAdmin.register Restaurant do
 
   controller do
     before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
-    before_action :authenticate_restaurant, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_restaurant, only: [:show, :edit, :create, :update, :destroy]
 
     def index
       params[:order] = ""
       super
+      if params[:category_id]
+        @restaurants = Category.find(params[:category_id]).restaurants
+      end
+    end
+
+    def create
+      super
+      category = Category.find(params[:category_id])
+      @restaurant.categories.push(category)
     end
 
     def update
       update! do |format|
-        format.html { redirect_to admin_campus_restaurants_path  }
+        format.html { redirect_to admin_category_restaurants_path  }
       end
     end
 
     def destroy
       destroy! do |format|
-        format.html { redirect_to admin_campus_restaurants_path }
+        format.html { redirect_to admin_category_restaurants_path }
       end
     end
 
@@ -73,8 +88,10 @@ ActiveAdmin.register Restaurant do
     def authenticate_restaurant
       if current_admin == nil
         redirect_to :root
-      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @restaurant.campus.name_eng
+        false
+      elsif not Admin.owned_campus(current_admin).map{|campus| campus.categories.map{|c| c.id}}.flatten.include? params[:category_id].to_i
         redirect_to :root
+        false 
       end
     end
   end

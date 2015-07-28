@@ -18,7 +18,7 @@ Shadal::Application.routes.draw do
   # This is for test apk. It includes unconfirmed campus
   get 'campuses_all' => 'campuses#campuses_all'
 
-  # Returns cmapuses meta data
+  # Returns campuses meta data
   get 'campuses' => 'campuses#campuses'
 
   # Device

@@ -6,7 +6,9 @@ class RestaurantsController < ApplicationController
 
   def allRestaurants
     @campus = Campus.find_by_name_eng(params[:campus])
-    @restaurants = @campus.restaurants
+    @categories = @campus.categories
+    @restaurants = @categories.map {|c| c.restaurants }.flatten
+    #@restaurants = @campus.restaurants
     @json = @restaurants.to_json(:methods => [:flyers_url], :include => :menus)
 
     render json: @json
@@ -35,10 +37,18 @@ class RestaurantsController < ApplicationController
   def checkForRestaurants
     #@restaurants = Restaurant.select {|r| r.campus == params[:campus]}
     @campus = Campus.find_by_name_eng(params[:campus])
-    @restaurants = @campus.restaurants
+    @categories = @campus.categories
+    @restaurants = @categories.map {|c| c.restaurants }.flatten
     render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
   
+  def checkForResInCategory
+    @campus = Campus.find_by_name_eng(params[:campus])
+    @categories = @campus.categories.select {|cat| cat.title == params[:category]}
+    @restaurants = @categories.map {|c| c.restaurants }.flatten
+    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
+  end
+
   def updateDevice
     if params[:uuid] == nil or params[:device] == nil or params[:campus] == nil
       render :nothing => true, :status => 400, :content_type => 'text/html'
@@ -62,12 +72,6 @@ class RestaurantsController < ApplicationController
     @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
     
     render json: @json
-  end
-
-  def checkForResInCategory
-    @campus = Campus.find_by_name_eng(params[:campus])
-    @restaurants = @campus.restaurants.select {|r| r.category == params[:category]}
-    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
   end
 
   def new_menu
