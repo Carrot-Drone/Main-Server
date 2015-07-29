@@ -5,13 +5,28 @@ class RestaurantsController < ApplicationController
   skip_before_filter  :verify_authenticity_token
 
   def allRestaurants
-    @campus = Campus.find_by_name_eng(params[:campus])
-    @categories = @campus.categories
-    @restaurants = @categories.map {|c| c.restaurants }.flatten
-    #@restaurants = @campus.restaurants
-    @json = @restaurants.to_json(:methods => [:flyers_url], :include => :menus)
+    campus = Campus.find_by_name_eng(params[:campus])
+    categories = campus.categories
+    restaurants = categories.map {|c| c.restaurants }.flatten
 
-    render json: @json
+    @json = restaurants.to_json(:methods => [:flyers_url], :include => :menus)
+
+    category_titles = categories.map do |c| 
+      titles = []
+      c.restaurants.count.times do
+        titles.push(c.title)
+      end
+      titles
+    end
+    category_titles.flatten!
+
+    res_array = JSON.parse @json
+    res_array.each_with_index do |val, index|
+      val["category"] = category_titles[index]
+    end
+
+    @json = res_array.to_json
+    render json: @json 
   end
 
   def checkForUpdate
@@ -36,17 +51,51 @@ class RestaurantsController < ApplicationController
 
   def checkForRestaurants
     #@restaurants = Restaurant.select {|r| r.campus == params[:campus]}
-    @campus = Campus.find_by_name_eng(params[:campus])
-    @categories = @campus.categories
-    @restaurants = @categories.map {|c| c.restaurants }.flatten
-    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
+    campus = Campus.find_by_name_eng(params[:campus])
+    categories = campus.categories
+    restaurants = categories.map {|c| c.restaurants }.flatten
+
+    @json = restaurants.to_json(:only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at])
+
+    category_titles = categories.map do |c| 
+      titles = []
+      c.restaurants.count.times do
+        titles.push(c.title)
+      end
+      titles
+    end
+    category_titles.flatten!
+    
+    res_array = JSON.parse @json
+    res_array.each_with_index do |val, index|
+      val["category"] = category_titles[index]
+    end
+
+    @json = res_array.to_json
+    render json: @json 
   end
   
   def checkForResInCategory
-    @campus = Campus.find_by_name_eng(params[:campus])
-    @categories = @campus.categories.select {|cat| cat.title == params[:category]}
-    @restaurants = @categories.map {|c| c.restaurants }.flatten
-    render json: @restaurants, :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at]
+    campus = Campus.find_by_name_eng(params[:campus])
+    categories = campus.categories.select {|cat| cat.title == params[:category]}
+    restaurants = categories.map {|c| c.restaurants }.flatten
+
+    @json = restaurants.to_json(:only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at])
+
+    category_titles = categories.map do |c| 
+      titles = []
+      c.restaurants.count.times do
+        titles.push(c.title)
+      end
+      titles
+    end
+    category_titles.flatten!
+    
+    res_array = JSON.parse @json
+    res_array.each_with_index do |val, index|
+      val["category"] = category_titles[index]
+    end
+    render json: @json
   end
 
   def updateDevice
