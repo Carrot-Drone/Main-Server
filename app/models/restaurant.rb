@@ -1,5 +1,4 @@
 class Restaurant < ActiveRecord::Base
-  belongs_to :campus
   has_and_belongs_to_many :categories 
 
   has_many :call_logs

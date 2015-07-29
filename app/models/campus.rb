@@ -3,6 +3,5 @@ class Campus < ActiveRecord::Base
   default_scope { name_kor }
 
   has_many :categories
-  has_many :restaurants
   has_many :devices
 end
