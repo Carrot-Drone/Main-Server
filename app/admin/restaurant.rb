@@ -76,7 +76,7 @@ ActiveAdmin.register Restaurant do
 
     def scoped_collection
       a = super
-      a = a.order('category, name')
+      a = a.order('name')
     end
 
     private
