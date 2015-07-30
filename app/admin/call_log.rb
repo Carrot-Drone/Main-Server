@@ -4,7 +4,7 @@ ActiveAdmin.register CallLog do
     column "Campus" do |call_log|
       restaurant = call_log.restaurant
       if not restaurant == nil
-        raw Campus.find_by_id(restaurant.campus_id).name_kor
+        raw Campus.find_by_id(restaurant.categories.first.campus_id).name_kor
       else
         raw ""
       end

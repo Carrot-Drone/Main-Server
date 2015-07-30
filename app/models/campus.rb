@@ -4,4 +4,5 @@ class Campus < ActiveRecord::Base
 
   has_many :categories
   has_many :devices
+  has_many :call_logs
 end
