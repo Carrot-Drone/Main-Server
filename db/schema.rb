@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730031453) do
+ActiveRecord::Schema.define(version: 20150730080052) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -51,13 +51,20 @@ ActiveRecord::Schema.define(version: 20150730031453) do
     t.string   "phoneNumber",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "restaurant_id", limit: 255
+    t.integer  "restaurant_id", limit: 4
     t.string   "device_type",   limit: 255
     t.string   "campus",        limit: 255
     t.integer  "device_id",     limit: 4
+    t.integer  "campus_id",     limit: 4
+    t.integer  "user_id",       limit: 4
+    t.integer  "category_id",   limit: 4
   end
 
+  add_index "call_logs", ["campus_id"], name: "index_call_logs_on_campus_id", using: :btree
+  add_index "call_logs", ["category_id"], name: "index_call_logs_on_category_id", using: :btree
   add_index "call_logs", ["device_id"], name: "index_call_logs_on_device_id", using: :btree
+  add_index "call_logs", ["restaurant_id"], name: "index_call_logs_on_restaurant_id", using: :btree
+  add_index "call_logs", ["user_id"], name: "index_call_logs_on_user_id", using: :btree
 
   create_table "campus_has_popup", id: false, force: :cascade do |t|
     t.integer "campuses_id", limit: 4,                null: false
