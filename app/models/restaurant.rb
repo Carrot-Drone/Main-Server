@@ -1,12 +1,16 @@
 class Restaurant < ActiveRecord::Base
   has_and_belongs_to_many :categories 
-
-  has_many :call_logs
   has_many :menus, -> { order(:position)}
   has_many :flyers
+
+  has_many :users_restaurants
+  has_many :users, :through => :users_restaurants
+
+  has_many :call_logs
+
   serialize :phone_numbers
 
-  validates :name, :phone_number, :category, presence: true
+  validates :name, :phone_number, presence: true
   validates_format_of :phone_number, :with => /[0-9]+/, :message => "올바른 형식의 전화번호를 입력해주세요.\n ex) 00-000-0000"
 
   before_save :save_restaurants!
