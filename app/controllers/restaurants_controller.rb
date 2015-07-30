@@ -9,23 +9,9 @@ class RestaurantsController < ApplicationController
     categories = campus.categories
     restaurants = categories.map {|c| c.restaurants }.flatten
 
-    @json = restaurants.to_json(:methods => [:flyers_url], :include => :menus)
+    @json = restaurants.to_json(:methods => [:flyers_url], :include => {:menus => {:include => :submenus}})
 
-    category_titles = categories.map do |c| 
-      titles = []
-      c.restaurants.count.times do
-        titles.push(c.title)
-      end
-      titles
-    end
-    category_titles.flatten!
-
-    res_array = JSON.parse @json
-    res_array.each_with_index do |val, index|
-      val["category"] = category_titles[index]
-    end
-
-    @json = res_array.to_json
+    @json = addCategoryToRestaurantJson(@json, categories)
     render json: @json 
   end
 
@@ -45,7 +31,8 @@ class RestaurantsController < ApplicationController
       render nothing: true, status: :no_content 
     else
       #render json: @restaurant, :include => :menus
-      render json: @restaurant, :methods => [:flyers_url], :include => :menus
+      @json = restaurants.to_json(:methods => [:flyers_url], :include => {:menus => {:include => :submenus}})
+      render json: @json 
     end
   end
 
@@ -56,22 +43,7 @@ class RestaurantsController < ApplicationController
     restaurants = categories.map {|c| c.restaurants }.flatten
 
     @json = restaurants.to_json(:only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at])
-
-    category_titles = categories.map do |c| 
-      titles = []
-      c.restaurants.count.times do
-        titles.push(c.title)
-      end
-      titles
-    end
-    category_titles.flatten!
-    
-    res_array = JSON.parse @json
-    res_array.each_with_index do |val, index|
-      val["category"] = category_titles[index]
-    end
-
-    @json = res_array.to_json
+    @json = addCategoryToRestaurantJson(@json, categories)
     render json: @json 
   end
   
@@ -81,20 +53,7 @@ class RestaurantsController < ApplicationController
     restaurants = categories.map {|c| c.restaurants }.flatten
 
     @json = restaurants.to_json(:only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at])
-
-    category_titles = categories.map do |c| 
-      titles = []
-      c.restaurants.count.times do
-        titles.push(c.title)
-      end
-      titles
-    end
-    category_titles.flatten!
-    
-    res_array = JSON.parse @json
-    res_array.each_with_index do |val, index|
-      val["category"] = category_titles[index]
-    end
+    @json = addCategoryToRestaurantJson(@json, categories)
     render json: @json
   end
 
@@ -114,6 +73,37 @@ class RestaurantsController < ApplicationController
     @device.save
 
     render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def restaurant_params
+    params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
+  end
+
+  # Add Category To Restauant Json
+  def addCategoryToRestaurantJson (json, categories)
+    category_titles = categories.map do |c| 
+      titles = []
+      c.restaurants.count.times do
+        titles.push(c.title)
+      end
+      titles
+    end
+    category_titles.flatten!
+
+    res_array = JSON.parse json
+    res_array.each_with_index do |val, index|
+      val["category"] = category_titles[index]
+    end
+
+    json = res_array.to_json
+    json
   end
 
   # Deprecated methods
@@ -148,16 +138,4 @@ class RestaurantsController < ApplicationController
     end
     render :nothing => true
   end
-
-  private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_restaurant
-    @restaurant = Restaurant.find(params[:id])
-  end
-
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def restaurant_params
-    params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
-  end
-
 end

@@ -1,5 +1,6 @@
 class Menu < ActiveRecord::Base
   belongs_to :restaurant, touch: true
+  has_many :submenus
   acts_as_list
 
   validates :section, :name, :price, presence: true
