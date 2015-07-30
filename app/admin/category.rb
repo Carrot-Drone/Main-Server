@@ -14,12 +14,22 @@ ActiveAdmin.register Category do
   actions :all, :except => [:new, :show, :destroy, :edit]
   belongs_to :campus
 
+  config.clear_sidebar_sections!
+
   index do
     column :title
+    column "# of res" do |category|
+      raw category.restaurants.count
+    end
     column "Restaurants" do |category|
       link_to('Go to List', admin_category_restaurants_path(category))
     end
   end
 
-  filter :false
+  sidebar "Back to Campuses", only: [:index] do
+    ul do
+      li link_to "Campuses", admin_campuses_path
+    end
+  end
+
 end

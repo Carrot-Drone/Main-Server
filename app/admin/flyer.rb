@@ -3,6 +3,17 @@ ActiveAdmin.register Flyer do
   belongs_to :restaurant
 
   permit_params :flyer, :restaurant_id
+
+  sidebar "Back to", only: [:index] do
+    ul do
+      if params[:category_id] != nil
+        li link_to "Restaurants", admin_category_restaurants_path(params[:category_id])
+        li link_to "Categories", admin_campus_categories_path(Category.find(params[:category_id]).campus_id)
+        li link_to "Campuses", admin_campuses_path
+      end
+    end
+  end
+
   controller do
     before_action :set_flyer, only: [:show, :edit, :update, :destroy]
     before_action :authenticate_flyer, only: [:show, :edit, :update, :destroy]

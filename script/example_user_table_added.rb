@@ -7,10 +7,12 @@ devices.each do |d|
   end
 end
 
+=begin
 users_restaurants = UsersRestaurant.all
 users_restaurants.each do |ur|
   ur.destroy
 end
+=end
 
 =begin IF you want to init UsersRestaurant with callLogs
 call_logs = CallLog.all
