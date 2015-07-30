@@ -66,6 +66,10 @@ class RestaurantsController < ApplicationController
     if @device == nil
       @device = Device.new
       @device.uuid = params[:uuid]
+
+      @user = User.new
+      @user.devices.push(@device)
+      @user.save
     end
 
     @device.device_type = params[:device]
