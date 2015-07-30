@@ -9,6 +9,8 @@ ActiveAdmin.register Menu do
 
   sortable
 
+  config.clear_sidebar_sections!
+
   index do
     sortable_handle_column
     selectable_column
@@ -16,6 +18,9 @@ ActiveAdmin.register Menu do
     column :section
     column :name
     column :price
+    column "Submenus" do |menu|
+      link_to('하위 메뉴', admin_menu_submenus_path(menu, :category_id => params[:category_id]))
+    end
     column :updated_at
     actions
   end
@@ -38,6 +43,16 @@ ActiveAdmin.register Menu do
 
   action_item only:[:index] do
     link_to "Update Position", :action => "update_position", :restaurant_id => params[:restaurant_id]
+  end
+
+  sidebar "Back to", only: [:index] do
+    ul do
+      if params[:category_id] != nil
+        li link_to "Restaurants", admin_category_restaurants_path(params[:category_id])
+        li link_to "Categories", admin_campus_categories_path(Category.find(params[:category_id]).campus_id)
+        li link_to "Campuses", admin_campuses_path
+      end
+    end
   end
 
   controller do

@@ -9,6 +9,7 @@ ActiveAdmin.register Campus do
    params.push :is_confirmed if current_admin.is_super_admin == true
   end
 
+  config.clear_sidebar_sections! 
   index do
     column :name_kor
     column :name_kor_short

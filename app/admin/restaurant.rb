@@ -15,10 +15,10 @@ ActiveAdmin.register Restaurant do
     column :phone_number
 
     column "Menus" do |res|
-      link_to('메뉴', admin_restaurant_menus_path(res))
+      link_to '메뉴', admin_restaurant_menus_path(res, :category_id => params[:category_id])
     end
     column "Flyer" do |res|
-      link_to('전단지', admin_restaurant_flyers_path(res))
+      link_to('전단지', admin_restaurant_flyers_path(res, :category_id => params[:category_id]))
     end
     actions
   end
@@ -99,8 +99,17 @@ ActiveAdmin.register Restaurant do
 
   sidebar "Restaurant Details", only: [:show, :edit] do
     ul do
-      li link_to "Menus",    admin_restaurant_menus_path(restaurant)
-      li link_to "Flyers", admin_restaurant_flyers_path(restaurant)
+      li link_to "Menus",admin_restaurant_menus_path(restaurant, :category_id => params[:category_id])
+      li link_to "Flyers", admin_restaurant_flyers_path(restaurant, :category_id => params[:category_id])
+    end
+  end
+
+  sidebar "Back to", only: [:index] do
+    ul do
+      if params[:category_id] != nil
+        li link_to "Categories", admin_campus_categories_path(Campus.find(Category.find(params[:category_id]).campus_id))
+        li link_to "Campuses", admin_campuses_path
+      end
     end
   end
 end
