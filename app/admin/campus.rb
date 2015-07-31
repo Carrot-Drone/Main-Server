@@ -4,17 +4,17 @@ ActiveAdmin.register Campus do
   # check action_methods on 'controller do'
  
   permit_params do
-   params = [:name_kor, :name_kor_short, :description]
+   params = [:name_kor, :name_kor_short]
    params.push :email if current_admin.is_super_admin == true 
    params.push :is_confirmed if current_admin.is_super_admin == true
   end
 
   config.clear_sidebar_sections! 
+
   index do
     column :name_kor
     column :name_kor_short
     column :email
-    column :description
     column "Categories" do |campus|
       link_to('Categories', admin_campus_categories_path(campus))
     end
@@ -38,7 +38,6 @@ ActiveAdmin.register Campus do
     inputs 'Details' do
       input :name_kor
       input :name_kor_short
-      input :description
       if current_admin.is_super_admin == true
         input :email
         input :is_confirmed

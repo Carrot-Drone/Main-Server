@@ -19,4 +19,3 @@ callLogs.each do |c|
 
   c.save
 end
-
