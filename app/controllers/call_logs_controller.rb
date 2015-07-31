@@ -5,7 +5,7 @@ class CallLogsController < ApplicationController
     category_id = params[:category_id]
     restaurant_id = params[:restaurant_id]
     device_uuid = params[:uuid]
-    device_type = params[:device_type]
+    number_of_calls = params[:number_of_calls]
 
     # deprecated params
     campus_eng = params[:campus]
@@ -73,11 +73,21 @@ class CallLogsController < ApplicationController
       user.save
     end
 
+    # set number_of_calls
+    if number_of_calls != nil and call_log.user != nil and call_log.restaurant != nil
+      usersRestaurants = UsersRestaurant.where("user_id = ? AND restaurant_id = ?", call_log.user_id, call_log.restaurant_id).first
+      if usersRestaurants == nil
+        usersRestaurants = UsersRestaurant.new
+        usersRestaurants.user = call_log.user
+        usersRestaurants.restaurant = call_log.restaurant
+        usersRestaurants.number_of_calls = 0
+      end
+      usersRestaurants.number_of_calls = number_of_calls
+      usersRestaurants.save
+    end
+
     call_log.save
 
     render :nothing => true
-  end
-
-  def statistic
   end
 end

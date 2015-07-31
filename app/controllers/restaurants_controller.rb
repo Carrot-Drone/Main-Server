@@ -6,13 +6,37 @@ class RestaurantsController < ApplicationController
 
   def allRestaurants
     campus = Campus.find_by_name_eng(params[:campus])
+    uuid = params[:uuid]
+
     categories = campus.categories
-    restaurants = categories.map {|c| c.restaurants }.flatten
+    restaurants = categories.map do |c| 
+      c.restaurants.each do |res|
+        res.category = c.title
+        res.uuid = uuid
+      end.flatten
+    end
 
-    @json = restaurants.to_json(:methods => [:flyers_url], :include => {:menus => {:include => :submenus}})
+    @json = restaurants.to_json(
+      :methods => [:flyers_url, :number_of_calls, :category], 
+      :include => {:menus => {:include => :submenus}}
+    )
 
-    @json = addCategoryToRestaurantJson(@json, categories)
     render json: @json 
+  end
+  
+  def checkForResInCategory
+    campus = Campus.find_by_name_eng(params[:campus])
+    categories = campus.categories.select {|cat| cat.title == params[:category]}
+    restaurants = categories.map do |c| 
+      c.restaurants.each do |res|
+        res.category = c.title
+      end
+    end.flatten
+
+    @json = restaurants.to_json(
+      :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at],
+      :methods => [:category])
+    render json: @json
   end
 
   def checkForUpdate
@@ -36,26 +60,6 @@ class RestaurantsController < ApplicationController
     end
   end
 
-  def checkForRestaurants
-    #@restaurants = Restaurant.select {|r| r.campus == params[:campus]}
-    campus = Campus.find_by_name_eng(params[:campus])
-    categories = campus.categories
-    restaurants = categories.map {|c| c.restaurants }.flatten
-
-    @json = restaurants.to_json(:only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at])
-    @json = addCategoryToRestaurantJson(@json, categories)
-    render json: @json 
-  end
-  
-  def checkForResInCategory
-    campus = Campus.find_by_name_eng(params[:campus])
-    categories = campus.categories.select {|cat| cat.title == params[:category]}
-    restaurants = categories.map {|c| c.restaurants }.flatten
-
-    @json = restaurants.to_json(:only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at])
-    @json = addCategoryToRestaurantJson(@json, categories)
-    render json: @json
-  end
 
   def updateDevice
     if params[:uuid] == nil or params[:device] == nil or params[:campus] == nil
@@ -88,26 +92,6 @@ class RestaurantsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def restaurant_params
     params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
-  end
-
-  # Add Category To Restauant Json
-  def addCategoryToRestaurantJson (json, categories)
-    category_titles = categories.map do |c| 
-      titles = []
-      c.restaurants.count.times do
-        titles.push(c.title)
-      end
-      titles
-    end
-    category_titles.flatten!
-
-    res_array = JSON.parse json
-    res_array.each_with_index do |val, index|
-      val["category"] = category_titles[index]
-    end
-
-    json = res_array.to_json
-    json
   end
 
   # Deprecated methods

@@ -15,9 +15,9 @@ class Restaurant < ActiveRecord::Base
 
   before_save :save_restaurants!
 
-  def hasPhoneNumber?(phone_number)
-    return self.phone_number == phone_number
-  end
+  # Method For to_json
+  attr_accessor :uuid
+  attr_accessor :category
 
   def flyers_url
     flyers = Array.new
@@ -25,6 +25,21 @@ class Restaurant < ActiveRecord::Base
       flyers.push(flyer.flyer.url)
     end
     return flyers
+  end
+
+  def number_of_calls
+    if @uuid == nil || Device.find_by_uuid(@uuid) == nil
+      return 0
+    else
+      device = Device.find_by_uuid(@uuid)
+      user = device.user
+      usersRestaurant = UsersRestaurant.where("user_id =? AND restaurant_id = ?", user.id, self.id).first
+      if usersRestaurant != nil
+        return usersRestaurant.number_of_calls
+      else
+        return 0
+      end
+    end
   end
 
   private 
