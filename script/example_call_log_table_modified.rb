@@ -17,5 +17,9 @@ callLogs.each do |c|
     c.user = device.user
   end
 
+  # category
+  unless c.restaurant == nil
+    c.category = c.restaurant.categories.first
+  end
   c.save
 end

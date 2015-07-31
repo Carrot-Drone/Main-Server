@@ -29,8 +29,8 @@ ActiveAdmin.register Restaurant do
       input :phone_number
       #input :category, as: :select, collection: ['치킨', '피자', '중국집', '한식/분식', '도시락/돈까스', '족발/보쌈', '냉면', '기타'],
       #  include_blank: false
-      input :category, as: :select, collection: [Category.find(params[:category_id]).title],
-        include_blank: false
+      #input :category, as: :select, collection: [Category.find(params[:category_id]).title],
+      #  include_blank: false
 
       input :openingHours
       input :closingHours
