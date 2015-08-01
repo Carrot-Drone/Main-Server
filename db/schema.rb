@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150730080052) do
+ActiveRecord::Schema.define(version: 20150801115928) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 20150730080052) do
     t.float    "openingHours",  limit: 24
     t.float    "closingHours",  limit: 24
     t.boolean  "is_new",                      default: false
+    t.float    "retention",     limit: 24
   end
 
   create_table "submenus", force: :cascade do |t|
@@ -178,11 +179,12 @@ ActiveRecord::Schema.define(version: 20150730080052) do
   end
 
   create_table "users_restaurants", force: :cascade do |t|
-    t.integer  "user_id",         limit: 4
-    t.integer  "restaurant_id",   limit: 4
-    t.integer  "number_of_calls", limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "user_id",                    limit: 4
+    t.integer  "restaurant_id",              limit: 4
+    t.integer  "number_of_calls_for_system", limit: 4
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.integer  "number_of_calls_for_user",   limit: 4
   end
 
   add_index "users_restaurants", ["restaurant_id"], name: "index_users_restaurants_on_restaurant_id", using: :btree

@@ -34,7 +34,7 @@ class RestaurantsController < ApplicationController
     end.flatten
 
     @json = restaurants.to_json(
-      :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :updated_at],
+      :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :retention, :updated_at],
       :methods => [:category])
     render json: @json
   end

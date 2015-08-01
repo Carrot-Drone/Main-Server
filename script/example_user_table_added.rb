@@ -1,5 +1,4 @@
-devices = Device.all
-devices.each do |d|
+Device.find_each do |d|
   if d.user == nil
     a = User.new
     a.devices.push(d)
@@ -7,25 +6,18 @@ devices.each do |d|
   end
 end
 
-=begin
-users_restaurants = UsersRestaurant.all
-users_restaurants.each do |ur|
+UsersRestaurant.find_each do |ur|
   ur.destroy
 end
-=end
-
-=begin IF you want to init UsersRestaurant with callLogs
-call_logs = CallLog.all
-restaurants = Restaurant.all
 
 cnt = 0
-call_logs.each do |c|
+CallLog.find_each do |c|
   cnt += 1
   puts cnt
   if c.device_id != nil and c.restaurant_id != nil
     device = Device.find(c.device_id)
     user = device.user
-    restaurant = restaurants.select {|res| res.id == c.restaurant_id.to_i}
+    restaurant = Restaurant.where("id = ?", c.restaurant_id)
     if restaurant.count == 0 
       next
     else
@@ -35,7 +27,7 @@ call_logs.each do |c|
       users_restaurant = UsersRestaurant.new
       users_restaurant.user_id = user.id
       users_restaurant.restaurant_id = restaurant.id
-      users_restaurant.number_of_calls = 0
+      users_restaurant.number_of_calls_for_system = 0
       users_restaurant.save
     end
     users_restaurant = UsersRestaurant.where("user_id = ? AND restaurant_id = ?", user.id, restaurant.id)
@@ -43,8 +35,7 @@ call_logs.each do |c|
       users_restaurant = users_restaurant[0]
     end
     
-    users_restaurant.number_of_calls += 1
+    users_restaurant.number_of_calls_for_system += 1
     users_restaurant.save
   end
 end
-=end

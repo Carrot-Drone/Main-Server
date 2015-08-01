@@ -35,7 +35,7 @@ class Restaurant < ActiveRecord::Base
       user = device.user
       usersRestaurant = UsersRestaurant.where("user_id =? AND restaurant_id = ?", user.id, self.id).first
       if usersRestaurant != nil
-        return usersRestaurant.number_of_calls
+        return usersRestaurant.number_of_calls_for_user
       else
         return 0
       end
