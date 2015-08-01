@@ -8,6 +8,8 @@ class Restaurant < ActiveRecord::Base
 
   has_many :call_logs
 
+  has_many :user_corrections
+
   serialize :phone_numbers
 
   validates :name, :phone_number, presence: true

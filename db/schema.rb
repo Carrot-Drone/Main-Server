@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150801134127) do
+ActiveRecord::Schema.define(version: 20150802124951) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -74,6 +74,13 @@ ActiveRecord::Schema.define(version: 20150801134127) do
 
   add_index "campus_has_popup", ["campuses_id"], name: "fk_campuses_has_popup_campuses_idx", using: :btree
   add_index "campus_has_popup", ["popup_id"], name: "fk_campuses_has_popup_popup1_idx", using: :btree
+
+  create_table "campus_reservations", force: :cascade do |t|
+    t.string   "campus_name",  limit: 255
+    t.string   "phone_number", limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "campuses", force: :cascade do |t|
     t.string   "name_eng",       limit: 255
@@ -148,6 +155,33 @@ ActiveRecord::Schema.define(version: 20150801134127) do
   add_index "popup_has_device", ["devices_id"], name: "fk_popup_has_devices_devices1_idx", using: :btree
   add_index "popup_has_device", ["popup_id"], name: "fk_popup_has_devices_popup1_idx", using: :btree
 
+  create_table "restaurant_corrections", force: :cascade do |t|
+    t.integer  "user_id",          limit: 4
+    t.integer  "restaurant_id",    limit: 4
+    t.string   "major_correction", limit: 255
+    t.text     "details",          limit: 65535
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "restaurant_corrections", ["restaurant_id"], name: "index_restaurant_corrections_on_restaurant_id", using: :btree
+  add_index "restaurant_corrections", ["user_id"], name: "index_restaurant_corrections_on_user_id", using: :btree
+
+  create_table "restaurant_suggestions", force: :cascade do |t|
+    t.integer  "user_id",                    limit: 4
+    t.string   "campus_name",                limit: 255
+    t.string   "restaurant_name",            limit: 255
+    t.string   "restaurant_phone_number",    limit: 255
+    t.string   "restaurant_opening_hours",   limit: 255
+    t.string   "restaurant_closing_hours",   limit: 255
+    t.boolean  "is_suggested_by_restaurant"
+    t.boolean  "is_processed",                           default: false
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+  end
+
+  add_index "restaurant_suggestions", ["user_id"], name: "index_restaurant_suggestions_on_user_id", using: :btree
+
   create_table "restaurants", force: :cascade do |t|
     t.string   "name",          limit: 255
     t.string   "phone_number",  limit: 255
@@ -171,6 +205,16 @@ ActiveRecord::Schema.define(version: 20150801134127) do
   end
 
   add_index "submenus", ["menu_id"], name: "index_submenus_on_menu_id", using: :btree
+
+  create_table "user_requests", force: :cascade do |t|
+    t.integer  "user_id",    limit: 4
+    t.string   "email",      limit: 255
+    t.text     "details",    limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "user_requests", ["user_id"], name: "index_user_requests_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false

@@ -5,4 +5,7 @@ class User < ActiveRecord::Base
   has_many :restaurants, :through => :users_restaurants
 
   has_many :call_logs
+
+  has_many :user_corrections
+  has_many :restaurant_suggestions
 end
