@@ -17,7 +17,7 @@ class RestaurantsController < ApplicationController
     end
 
     @json = restaurants.to_json(
-      :methods => [:flyers_url, :number_of_calls, :category], 
+      :methods => [:flyers_url, :number_of_my_calls, :category, :total_number_of_calls, :my_preference], 
       :include => {:menus => {:include => :submenus}}
     )
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150801115928) do
+ActiveRecord::Schema.define(version: 20150801131545) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -182,9 +182,10 @@ ActiveRecord::Schema.define(version: 20150801115928) do
     t.integer  "user_id",                    limit: 4
     t.integer  "restaurant_id",              limit: 4
     t.integer  "number_of_calls_for_system", limit: 4
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.integer  "number_of_calls_for_user",   limit: 4
+    t.integer  "preference",                 limit: 4, default: 0
   end
 
   add_index "users_restaurants", ["restaurant_id"], name: "index_users_restaurants_on_restaurant_id", using: :btree

@@ -27,19 +27,40 @@ class Restaurant < ActiveRecord::Base
     return flyers
   end
 
-  def number_of_calls
+  def number_of_my_calls
+    # You should init @uuid attribute to get number_of_my_calls
     if @uuid == nil || Device.find_by_uuid(@uuid) == nil
       return 0
     else
       device = Device.find_by_uuid(@uuid)
       user = device.user
-      usersRestaurant = UsersRestaurant.where("user_id =? AND restaurant_id = ?", user.id, self.id).first
-      if usersRestaurant != nil
-        return usersRestaurant.number_of_calls_for_user
+      usersRestaurants = UsersRestaurant.where("user_id =? AND restaurant_id = ?", user.id, self.id)
+      if usersRestaurants!= nil and usersRestaurants.count != 0
+        return usersRestaurants.first.number_of_calls_for_user
       else
         return 0
       end
     end
+  end
+
+  def my_preference
+    # You should init @uuid attribute to get number_of_my_calls
+    if @uuid == nil || Device.find_by_uuid(@uuid) == nil
+      return 0
+    else
+      device = Device.find_by_uuid(@uuid)
+      user = device.user
+      usersRestaurants = UsersRestaurant.where("user_id = ? AND restaurant_id = ?", user.id, self.id)
+      if usersRestaurants != nil and usersRestaurants.count != 0
+        return usersRestaurants.first.preference
+      else
+        return 0
+      end
+    end
+  end
+
+  def total_number_of_calls
+    return self.call_logs.count
   end
 
   private 
