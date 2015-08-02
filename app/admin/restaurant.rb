@@ -1,7 +1,7 @@
 ActiveAdmin.register Restaurant do
   #belongs_to :campus#, :class_name => "Campus"
   belongs_to :category
-  permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string
+  permit_params :name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_coupon, :flyer, :is_new, :coupon_string
 
   index do
     selectable_column
@@ -34,7 +34,6 @@ ActiveAdmin.register Restaurant do
 
       input :openingHours
       input :closingHours
-      input :has_flyer
       input :has_coupon
       input :coupon_string, label: "Notice"
       input :is_new

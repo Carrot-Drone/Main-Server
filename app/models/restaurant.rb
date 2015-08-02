@@ -87,6 +87,14 @@ class Restaurant < ActiveRecord::Base
     return bad
   end
 
+  def has_flyer
+    if self.flyers.count > 0
+      return true
+    else 
+      return false
+    end 
+  end
+
   private 
     def save_restaurants!
       if self.has_flyer == nil

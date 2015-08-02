@@ -17,7 +17,7 @@ class RestaurantsController < ApplicationController
       render nothing: true, status: :no_content 
     else
       @json = restaurant.to_json(
-        :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention, :total_number_of_good, :total_number_of_bad], 
+        :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention, :total_number_of_good, :total_number_of_bad, :has_flyer], 
         :include => {
           :menus =>{
             :except => [:id, :created_at, :updated_at],
@@ -87,7 +87,7 @@ class RestaurantsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def restaurant_params
-    params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
+    params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_coupon, :flyer, :is_new, :coupon_string)
   end
 
 
@@ -107,7 +107,7 @@ class RestaurantsController < ApplicationController
     end
 
     @json = restaurants.to_json(
-      :methods => [:flyers_url, :number_of_my_calls, :category, :total_number_of_calls, :my_preference], 
+      :methods => [:flyers_url, :number_of_my_calls, :category, :total_number_of_calls, :my_preference, :has_flyer], 
       :include => {:menus => {:include => :submenus}}
     )
 
@@ -124,8 +124,8 @@ class RestaurantsController < ApplicationController
     end.flatten
 
     @json = restaurants.to_json(
-      :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :retention, :updated_at],
-      :methods => [:category])
+      :only => [:id, :name, :phone_number, :has_coupon, :is_new, :retention, :updated_at],
+      :methods => [:category, :has_flyer])
     render json: @json
   end
 
@@ -144,7 +144,7 @@ class RestaurantsController < ApplicationController
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
       render nothing: true, status: :no_content 
     else
-      @json = @restaurant.to_json(:methods => [:flyers_url], :include => {:menus => {:include => :submenus}})
+      @json = @restaurant.to_json(:methods => [:flyers_url, :has_flyer], :include => {:menus => {:include => :submenus}})
       render json: @json 
     end
   end
@@ -154,7 +154,6 @@ class RestaurantsController < ApplicationController
     restaurant.category = params[:categories]
     restaurant.openingHours = params[:openingHours].to_f
     restaurant.closingHours = params[:closingHours].to_f
-    restaurant.has_flyer = params[:has_flyer]
     restaurant.has_coupon = params[:has_coupon]
     restaurant.save
 

@@ -19,7 +19,7 @@ class CampusesController < ApplicationController
       :include => {
         :restaurants => {
           :except => [:updated_at, :created_at],
-          :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention], 
+          :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention, :has_flyer], 
           :include => {
             :menus =>{
               :except => [:id, :created_at, :updated_at],
@@ -39,7 +39,8 @@ class CampusesController < ApplicationController
     restaurants = category.restaurants
 
     @json = restaurants.to_json(
-      :only => [:id, :name, :phone_number, :has_coupon, :has_flyer, :is_new, :retention, :updated_at]
+      :only => [:id, :name, :phone_number, :has_coupon, :is_new, :retention, :updated_at],
+      :methods => [:has_flyer]
     )
     render json: @json
   end 
