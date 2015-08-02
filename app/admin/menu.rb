@@ -100,7 +100,7 @@ ActiveAdmin.register Menu do
     def authenticate_menu
       if current_admin == nil
         redirect_to :root
-      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @menu.restaurant.campus.name_eng
+      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @menu.restaurant.categories.first.campus.name_eng
         redirect_to :root
       end
     end
