@@ -1,6 +1,42 @@
 class CallLogsController < ApplicationController
   skip_before_filter  :verify_authenticity_token
-  def new
+  def create
+    campus_id = params[:campus_id]
+    category_id = params[:category_id]
+    restaurant_id = params[:restaurant_id]
+    device_uuid = params[:uuid]
+    number_of_calls_for_user = params[:number_of_calls]
+
+    if campus_id == nil or category_id == nil or restaurant_id == nil or device_uuid == nil or number_of_calls_for_user == nil
+      render :nothing => true
+    end
+
+    call_log = CallLog.new
+    call_log.campus_id = campus_id
+    call_log.category_id = category_id
+    call_log.restaurant_id = restaurant_id
+    device = Device.find_by_uuid(device_uuid)
+    if device != nil
+      call_log.device = device
+      call_log.user = device.user
+    end
+    call_log.save
+
+    # set number_of_calls
+    usersRestaurants = UsersRestaurant.where("user_id = ? AND restaurant_id = ?", call_log.user_id, call_log.restaurant_id).first
+    if usersRestaurants == nil
+      usersRestaurants = UsersRestaurant.new
+      usersRestaurants.user = call_log.user
+      usersRestaurants.restaurant = call_log.restaurant
+    end
+    usersRestaurants.number_of_calls_for_user = number_of_calls_for_user
+    usersRestaurants.number_of_calls_for_system += 1
+    usersRestaurants.save
+    render :nothing => true
+  end
+
+  # Deprecated API
+  def create_new
     campus_id = params[:campus_id]
     category_id = params[:category_id]
     restaurant_id = params[:restaurant_id]
@@ -74,7 +110,8 @@ class CallLogsController < ApplicationController
     end
 
     # set number_of_calls
-    if number_of_calls_for_user != nil and call_log.user != nil and call_log.restaurant != nil
+    number_of_calls_for_user ||= 0
+    if call_log.user != nil and call_log.restaurant != nil
       usersRestaurants = UsersRestaurant.where("user_id = ? AND restaurant_id = ?", call_log.user_id, call_log.restaurant_id).first
       if usersRestaurants == nil
         usersRestaurants = UsersRestaurant.new

@@ -1,8 +1,48 @@
 class RestaurantsController < ApplicationController
-  before_action :authenticate_admin!, :only => [:index, :show, :edit, :new]
-  before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_restaurant, only: [:edit, :update]
   skip_before_filter  :verify_authenticity_token
+
+  def show
+    restaurant_id = params[:restaurant_id] 
+    updated_at = params[:updated_at]
+    uuid = params[:uuid]
+
+    if updated_at == nil or updated_at == ""
+      updated_at = Time.new(2000).to_s
+    end
+
+    restaurant = Restaurant.find(restaurant_id)
+    restaurant.uuid = uuid
+    if restaurant.updated_at.to_s <= updated_at
+      render nothing: true, status: :no_content 
+    else
+      @json = restaurant.to_json(
+        :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention], 
+        :include => {
+          :menus =>{
+            :except => [:id, :created_at, :updated_at],
+            :include => :submenus
+          }
+        }
+      )
+      render json: @json 
+    end
+  end
+
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def restaurant_params
+    params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
+  end
+
+
+  public
+  # Deprecated methods
 
   def allRestaurants
     campus = Campus.find_by_name_eng(params[:campus])
@@ -54,53 +94,10 @@ class RestaurantsController < ApplicationController
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
       render nothing: true, status: :no_content 
     else
-      #render json: @restaurant, :include => :menus
-      @json = restaurants.to_json(:methods => [:flyers_url], :include => {:menus => {:include => :submenus}})
+      @json = @restaurant.to_json(:methods => [:flyers_url], :include => {:menus => {:include => :submenus}})
       render json: @json 
     end
   end
-
-
-  def updateDevice
-    if params[:uuid] == nil or params[:device] == nil or params[:campus] == nil
-      render :nothing => true, :status => 400, :content_type => 'text/html'
-    end
-
-    @device = Device.find_by_uuid(params[:uuid])
-    if @device == nil
-      @device = Device.new
-      @device.uuid = params[:uuid]
-
-      @user = User.new
-      @user.devices.push(@device)
-      @user.save
-    end
-
-    @device.device_type = params[:device]
-    @device.campus = Campus.find_by_name_eng(params[:campus])
-    @device.save
-
-    render :nothing => true, :status => 200, :content_type => 'text/html'
-  end
-
-  private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_restaurant
-    @restaurant = Restaurant.find(params[:id])
-  end
-
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def restaurant_params
-    params.require(:restaurant).permit(:name, :phone_number, :campus, :category, :openingHours, :closingHours, :has_flyer, :has_coupon, :flyer, :is_new, :coupon_string)
-  end
-
-  # Deprecated methods
-  def allDataGwanak
-    @json = Restaurant.select{|r| r.campus == "Gwanak"}.to_json(:methods => [:flyers_url], :include => :menus)
-    
-    render json: @json
-  end
-
   def new_menu
     restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
 
