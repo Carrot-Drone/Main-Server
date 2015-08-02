@@ -65,6 +65,28 @@ class Restaurant < ActiveRecord::Base
     return self.call_logs.count
   end
 
+  def total_number_of_good
+    urs = UsersRestaurant.where("restaurant_id = ?", self.id)
+    good = 0
+    urs.each do |ur|
+      if ur.preference == 1
+        good += 1
+      end
+    end
+    return good
+  end
+
+  def total_number_of_bad
+    urs = UsersRestaurant.where("restaurant_id = ?", self.id)
+    bad = 0
+    urs.each do |ur|
+      if ur.preference == -1
+        bad += 1
+      end
+    end
+    return bad
+  end
+
   private 
     def save_restaurants!
       if self.has_flyer == nil

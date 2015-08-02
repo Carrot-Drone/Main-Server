@@ -1,0 +1,2 @@
+module RestaurantCorrectionsHelper
+end

@@ -17,31 +17,50 @@ Shadal::Application.routes.draw do
 
   # Returns restaurants' meta data in campus
   get 'campus/:campus_id/category/:category_id/restaurants' => 'campuses#restaurants_in_category'
+
+  # New Campuses Reservation
+  post 'campus/reservation' => 'campus_reservations#create'
   #
-  ##### Campus Controller #####
+  ##### Campuses Controller #####
 
 
-  ##### Restaurant Controller #####
+  ##### Restaurants Controller #####
   #
   # Returns restaurant
   get 'restaurant/:restaurant_id' => 'restaurants#show'
+  # Good
+  get 'restaurant/:restaurant_id/is_good/:uuid' => 'restaurants#is_good'
+  # Bad
+  get 'restaurant/:restaurant_id/is_bad/:uuid' => 'restaurants#is_bad'
+  # New Restaurant Correction
+  post 'restaurant/:restaurant_id/restaurant_corrections' => 'restaurant_corrections#create'
+  # New Restaurant Suggestion
+  post 'restaurant_suggestion' => 'restaurant_suggestions#create'
   #
-  ##### Restaurant Controller #####
+  ##### Restaurants Controller #####
   
-  ##### CallLog Controller #####
+  ##### CallLogs Controller #####
   #
   # New CallLog
   # 
-  match 'call_logs' => 'call_logs#create', via: [:get, :post]
+  post 'call_logs' => 'call_logs#create'
   #
-  ##### CallLog Controller #####
+  ##### CallLogs Controller #####
+  
+  ##### Users Controller #####
+  #
+  # New User Request
+  # 
+  post 'user/:user_id/request' => 'user_requests#create'
+  #
+  ##### Users Controller #####
 
-  ##### Device Controller #####
+  ##### Devices Controller #####
   #
   # Device
-  match 'update_device' => 'devices#update_device', via: [:get, :post]
+  post 'update_device' => 'devices#update_device'
   #
-  ##### Device Controller #####
+  ##### Devices Controller #####
 
   ##### Application Controller #####
   #

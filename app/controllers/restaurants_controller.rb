@@ -17,7 +17,7 @@ class RestaurantsController < ApplicationController
       render nothing: true, status: :no_content 
     else
       @json = restaurant.to_json(
-        :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention], 
+        :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention, :total_number_of_good, :total_number_of_bad], 
         :include => {
           :menus =>{
             :except => [:id, :created_at, :updated_at],
@@ -27,6 +27,56 @@ class RestaurantsController < ApplicationController
       )
       render json: @json 
     end
+  end
+
+  def is_good
+    restaurant_id = params[:restaurant_id]
+    uuid = params[:uuid]
+
+    if restaurant_id == nil or uuid == nil
+      render nothing: true, status: :bad_request
+    end
+    device = Device.find_by_uuid(uuid)
+    user = device.user
+    ur = UsersRestaurant.where("user_id = ? AND restaurant_id = ?", user.id, restaurant_id)
+
+    if ur == nil || ur.first == nil
+      ur = UsersRestaurant.new
+      ur.user = user
+      ur.restaurant_id = restaurant_id
+      ur.number_of_calls_for_user = 0
+      ur.number_of_calls_for_system = 0
+    else
+      ur = ur.first
+    end
+    ur.preference = 1
+    ur.save
+    render nothing: true, status: :ok
+  end
+
+  def is_bad
+    restaurant_id = params[:restaurant_id]
+    uuid = params[:uuid]
+
+    if restaurant_id == nil or uuid == nil
+      render nothing: true, status: :bad_request
+    end
+    device = Device.find_by_uuid(uuid)
+    user = device.user
+    ur = UsersRestaurant.where("user_id = ? AND restaurant_id = ?", user.id, restaurant_id)
+
+    if ur == nil
+      ur = UsersRestaurant.new
+      ur.user = user
+      ur.restaurant_id = restaurant_id
+      ur.number_of_calls_for_user = 0
+      ur.number_of_calls_for_system = 0
+    else
+      ur = ur.first
+    end
+    ur.preference = -1
+    ur.save
+    render nothing: true, status: :ok
   end
 
   private

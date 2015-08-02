@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :call_logs
 
+  has_many :user_requests
   has_many :user_corrections
   has_many :restaurant_suggestions
 end
