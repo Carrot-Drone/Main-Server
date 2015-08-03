@@ -14,8 +14,11 @@ class UserRequestsController < ApplicationController
       ur.email = email
       ur.details = details 
       ur.save
+
+      render nothing: true, status: :ok
+    else
+      render nothing: true, status: :bad_request
     end
 
-    render nothing: true, status: :ok
   end
 end

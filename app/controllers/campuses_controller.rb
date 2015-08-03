@@ -1,14 +1,15 @@
 class CampusesController < ApplicationController
   def campuses
-    @json = Campus.all.select {|x| x.is_confirmed? }
+    all = params[:all] == "true"
+    campuses = nil
+    if all
+      # For Test APK
+      campuses = Campus.all
+    else
+      campuses = Campus.all.select {|x| x.is_confirmed? }
+    end
 
-    render json: @json, :only => [:name_eng, :name_kor, :name_kor_short, :email]
-  end
-
-  def campuses_all
-    @json = Campus.all
-
-    render json: @json, :only => [:name_eng, :name_kor, :name_kor_short, :email]
+    render json: campuses, :only => [:id, :name_eng, :name_kor, :name_kor_short, :email]
   end
 
   def restaurants
@@ -19,7 +20,7 @@ class CampusesController < ApplicationController
       :include => {
         :restaurants => {
           :except => [:updated_at, :created_at],
-          :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention, :has_flyer], 
+          :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention, :has_flyer, :is_new, :total_number_of_goods, :total_number_of_bads], 
           :include => {
             :menus =>{
               :except => [:id, :created_at, :updated_at],
@@ -39,9 +40,17 @@ class CampusesController < ApplicationController
     restaurants = category.restaurants
 
     @json = restaurants.to_json(
-      :only => [:id, :name, :phone_number, :has_coupon, :is_new, :retention, :updated_at],
-      :methods => [:has_flyer]
+      :only => [:id, :name, :phone_number, :has_coupon, :retention, :updated_at],
+      :methods => [:has_flyer, :is_new]
     )
     render json: @json
   end 
+
+
+  # Deprecated API
+  def campuses_all
+    json = Campus.all
+
+    render json: json, :only => [:id, :name_eng, :name_kor, :name_kor_short, :email]
+  end
 end

@@ -5,7 +5,7 @@ class DevicesController < ApplicationController
     campus_id = params[:campus_id]
 
     if uuid == nil or type == nil or campus_id == nil
-      render :nothing => true
+      render :nothing => true, :status => :bad_request
     end
 
     device = Device.find_by_uuid(uuid)
@@ -21,7 +21,7 @@ class DevicesController < ApplicationController
 
     device.campus = Campus.find(campus_id)
     device.save
-    render :nothing => true
+    render :nothing => true, :status => :ok
   end
 
   # Deprecated API

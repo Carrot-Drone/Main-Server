@@ -8,9 +8,6 @@ Shadal::Application.routes.draw do
   # Returns campuses meta data
   get 'campuses' => 'campuses#campuses'
 
-  # This is for test apk. It includes unconfirmed campus
-  get 'campuses_all' => 'campuses#campuses_all'
-
   # Return restaurants in campus
   get 'campus/:campus_id/restaurants' => 'campuses#restaurants'
 
@@ -28,11 +25,8 @@ Shadal::Application.routes.draw do
   # Returns restaurant
   get 'restaurant/:restaurant_id' => 'restaurants#show'
 
-  # Good
-  get 'restaurant/:restaurant_id/is_good/:uuid' => 'restaurants#is_good'
-
-  # Bad
-  get 'restaurant/:restaurant_id/is_bad/:uuid' => 'restaurants#is_bad'
+  # User Preference Good/Bad
+  post 'restaurant/:restaurant_id/preference' => 'restaurants#preference'
 
   # New Restaurant Correction
   post 'restaurant/:restaurant_id/restaurant_corrections' => 'restaurant_corrections#create'
@@ -54,7 +48,7 @@ Shadal::Application.routes.draw do
   #
   # New User Request
   # 
-  post 'user/:user_id/request' => 'user_requests#create'
+  post 'user/request' => 'user_requests#create'
   #
   ##### Users Controller #####
 
@@ -80,6 +74,7 @@ Shadal::Application.routes.draw do
   ##### Active admin #####
 
   # DEPRECATED 'API for sync data on mobile app'
+  get 'campuses_all' => 'campuses#campuses_all'
   match 'checkForUpdate' => 'restaurants#checkForUpdate', via: [:get, :post]
   match 'checkForResInCategory' => 'restaurants#checkForResInCategory', via: [:get, :post]
   match  'allRestaurants' => 'restaurants#allRestaurants', via: [:get, :post]
