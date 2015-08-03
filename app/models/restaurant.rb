@@ -113,10 +113,6 @@ class Restaurant < ActiveRecord::Base
         self.has_coupon = false
       end
 
-      if self.is_new == nil
-        self.is_new = false
-      end
-
       if self.opening_hours == nil
         self.opening_hours = 0.0
       end
