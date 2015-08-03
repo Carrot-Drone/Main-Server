@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150803055115) do
+ActiveRecord::Schema.define(version: 20150803104228) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -140,6 +140,8 @@ ActiveRecord::Schema.define(version: 20150803055115) do
     t.integer  "position",      limit: 4
     t.text     "description",   limit: 65535
   end
+
+  add_index "menus", ["restaurant_id"], name: "index_menus_on_restaurant_id", using: :btree
 
   create_table "popup", force: :cascade do |t|
     t.string   "external_link", limit: 255
