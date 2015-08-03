@@ -6,4 +6,5 @@ class Campus < ActiveRecord::Base
   has_many :devices
   has_many :call_logs
   has_many :user_requests
+  has_many :restaurant_suggestion
 end

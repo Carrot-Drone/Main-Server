@@ -1,6 +1,5 @@
 Shadal::Application.routes.draw do
   root :to => 'admin/campuses#index'
-
   devise_for :admins
   ActiveAdmin.routes(self)
 
@@ -28,12 +27,16 @@ Shadal::Application.routes.draw do
   #
   # Returns restaurant
   get 'restaurant/:restaurant_id' => 'restaurants#show'
+
   # Good
   get 'restaurant/:restaurant_id/is_good/:uuid' => 'restaurants#is_good'
+
   # Bad
   get 'restaurant/:restaurant_id/is_bad/:uuid' => 'restaurants#is_bad'
+
   # New Restaurant Correction
   post 'restaurant/:restaurant_id/restaurant_corrections' => 'restaurant_corrections#create'
+
   # New Restaurant Suggestion
   post 'restaurant_suggestion' => 'restaurant_suggestions#create'
   #

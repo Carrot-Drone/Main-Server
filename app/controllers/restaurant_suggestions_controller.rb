@@ -4,9 +4,9 @@ class RestaurantSuggestionsController < ApplicationController
     campus_id = params[:campus_id]
     name = params[:name]
     phone_number = params[:phone_number]
-    opening_hours = params[:opening_hours]
-    closing_hours = params[:closing_hours]
+    office_hours = params[:office_hours]
     files = params[:files]
+    is_suggested_by_restaurant = params[:is_suggested_by_restaurant]
 
     device = Device.find_by_uuid(uuid)
     user = nil
@@ -20,8 +20,8 @@ class RestaurantSuggestionsController < ApplicationController
       rsu.campus_id = campus_id
       rsu.campus_name = name
       rsu.restaurant_phone_number = phone_number
-      rsu.restaurant_opening_hours = opening_hours
-      rsu.restaurant_closing_hours = closing_hours
+      rsu.restaurant_office_hours = office_hours
+      rsu.is_suggested_by_restaurant = is_suggested_by_restaurant == "true"
       if files != nil and files.count != 0
         files.each do |file|
           flyer = Flyer.new
@@ -32,7 +32,7 @@ class RestaurantSuggestionsController < ApplicationController
       end
       rsu.save
 
-      render json: rsu.to_json(:only => [:id])
+      render nothing: true, status: :ok
     else 
       render nothing: true, status: :bad_request
     end
