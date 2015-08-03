@@ -65,7 +65,7 @@ class Restaurant < ActiveRecord::Base
     return self.call_logs.count
   end
 
-  def total_number_of_good
+  def total_number_of_goods
     urs = UsersRestaurant.where("restaurant_id = ?", self.id)
     good = 0
     urs.each do |ur|
@@ -76,7 +76,7 @@ class Restaurant < ActiveRecord::Base
     return good
   end
 
-  def total_number_of_bad
+  def total_number_of_bads
     urs = UsersRestaurant.where("restaurant_id = ?", self.id)
     bad = 0
     urs.each do |ur|
@@ -95,6 +95,14 @@ class Restaurant < ActiveRecord::Base
     end 
   end
 
+  def is_new
+    if self.created_at > Time.now - 60*60*24*30
+      return true
+    else
+      return false
+    end
+  end
+
   private 
     def save_restaurants!
       if self.has_flyer == nil
@@ -109,11 +117,11 @@ class Restaurant < ActiveRecord::Base
         self.is_new = false
       end
 
-      if self.openingHours == nil
-        self.openingHours = 0.0
+      if self.opening_hours == nil
+        self.opening_hours = 0.0
       end
-      if self.closingHours == nil
-        self.closingHours = 0.0
+      if self.closing_hours == nil
+        self.closing_hours = 0.0
       end
     end
 end

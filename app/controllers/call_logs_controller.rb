@@ -8,7 +8,7 @@ class CallLogsController < ApplicationController
     number_of_calls_for_user = params[:number_of_calls]
 
     if campus_id == nil or category_id == nil or restaurant_id == nil or device_uuid == nil or number_of_calls_for_user == nil
-      render :nothing => true
+      render :nothing => true, :status => :bad_request
     end
 
     call_log = CallLog.new
@@ -32,7 +32,7 @@ class CallLogsController < ApplicationController
     usersRestaurants.number_of_calls_for_user = number_of_calls_for_user
     usersRestaurants.number_of_calls_for_system += 1
     usersRestaurants.save
-    render :nothing => true
+    render :nothing => true, :status => :ok
   end
 
   # Deprecated API

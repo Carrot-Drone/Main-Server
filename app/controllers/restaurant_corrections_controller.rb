@@ -3,15 +3,20 @@ class RestaurantCorrectionsController < ApplicationController
     restaurant_id = params[:restaurant_id]
     major_correction = params[:major]
     details = params[:details]
+    uuid = params[:uuid]
+    device = Device.find_by_uuid(uuid)
+    user = device.user
 
-    if restaurant_id != nil and major_correction != nil and details != nil
+    if restaurant_id != nil and major_correction != nil and details != nil and user != nil
       rc = RestaurantCorrection.new
       rc.restaurant_id = restaurant_id
       rc.major_correction = major_correction
       rc.details = details
       rc.save
+      render nothing: true, status: :ok
+    else
+      render nothing: true, status: :bad_request
     end
 
-    render nothing: true, status: :ok
   end
 end

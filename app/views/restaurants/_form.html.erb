@@ -28,12 +28,12 @@
     <%= f.select :category, [['치킨', '치킨'], ['피자', '피자'], ['중국집', '중국집'], ['한식/분식', '한식/분식'], ['도시락/돈까스', '도시락/돈까스'], ['족발/보쌈', '족발/보쌈'], ['냉면', '냉면'], ['기타', '기타']] %>
   </div>
   <div class="field">
-    <%= f.label :openingHours %><br>
-    <%= f.number_field :openingHours, step: 0.1 %>
+    <%= f.label :opening_hours %><br>
+    <%= f.number_field :opening_hours, step: 0.1 %>
   </div>
   <div class="field">
-    <%= f.label :closingHours %><br>
-    <%= f.number_field :closingHours, step: 0.1 %>
+    <%= f.label :closing_hours %><br>
+    <%= f.number_field :closing_hours, step: 0.1 %>
   </div>
   <div class="field">
     <%= f.label :has_coupon %><br>
