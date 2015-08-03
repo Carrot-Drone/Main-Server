@@ -9,7 +9,7 @@ class CampusesController < ApplicationController
       campuses = Campus.all.select {|x| x.is_confirmed? }
     end
 
-    render json: campuses, :only => [:id, :name_eng, :name_kor, :name_kor_short, :email]
+    render json: campuses, :only => [:id, :name_kor, :name_kor_short, :email]
   end
 
   def restaurants
@@ -40,7 +40,7 @@ class CampusesController < ApplicationController
     restaurants = category.restaurants
 
     @json = restaurants.to_json(
-      :only => [:id, :name, :phone_number, :has_coupon, :retention, :updated_at],
+      :only => [:id, :name, :phone_number, :has_coupon, :retention],
       :methods => [:has_flyer, :is_new]
     )
     render json: @json
