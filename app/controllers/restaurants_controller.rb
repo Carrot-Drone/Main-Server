@@ -91,8 +91,8 @@ class RestaurantsController < ApplicationController
     restaurants = restaurants.flatten
 
     @json = restaurants.to_json(
-      :methods => [:flyers_url, :number_of_my_calls, :category, :total_number_of_calls, :my_preference, :has_flyer], 
-      :include => {:menus => {:include => :submenus}}
+      :methods => [:flyers_url, :category, :has_flyer], 
+      :include => :menus
     )
 
     render json: @json 
@@ -132,6 +132,7 @@ class RestaurantsController < ApplicationController
       render json: @json 
     end
   end
+
   def new_menu
     restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
 

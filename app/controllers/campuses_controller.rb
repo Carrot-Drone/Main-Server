@@ -9,7 +9,7 @@ class CampusesController < ApplicationController
       campuses = Campus.all.select {|x| x.is_confirmed? }
     end
 
-    render json: campuses, :only => [:id, :name_kor, :name_kor_short, :email]
+    render json: campuses, :only => [:id, :name_eng, :name_kor, :name_kor_short, :email]
   end
 
   def restaurants
