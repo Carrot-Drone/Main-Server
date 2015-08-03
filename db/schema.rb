@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150802164840) do
+ActiveRecord::Schema.define(version: 20150803015815) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -121,11 +121,14 @@ ActiveRecord::Schema.define(version: 20150802164840) do
   add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
 
   create_table "flyers", force: :cascade do |t|
-    t.integer  "restaurant_id", limit: 4
+    t.integer  "restaurant_id",            limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "flyer",         limit: 255
+    t.string   "flyer",                    limit: 255
+    t.integer  "restaurant_suggestion_id", limit: 4
   end
+
+  add_index "flyers", ["restaurant_suggestion_id"], name: "index_flyers_on_restaurant_suggestion_id", using: :btree
 
   create_table "menus", force: :cascade do |t|
     t.integer  "restaurant_id", limit: 4

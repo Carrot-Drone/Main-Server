@@ -13,11 +13,19 @@ class FlyerUploader < CarrierWave::Uploader::Base
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
-    "flyers/#{model.restaurant.id}"
+    if model.restaurant != nil
+      "flyers/restaurants/#{model.restaurant.id}"
+    elsif model.restaurant_suggestion != nil
+      "flyers/restaurant_suggestions/#{model.restaurant_suggestion.id}"
+    end
   end
 
   def filename
-    "#{model.restaurant.phone_number}-#{secure_token}.#{file.extension}" 
+    if model.restaurant != nil
+      "#{model.restaurant.phone_number}-#{secure_token}.#{file.extension}" 
+    elsif model.restaurant_suggestion != nil
+      "#{model.restaurant_suggestion.id}-#{secure_token}.#{file.extension}" 
+    end
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
