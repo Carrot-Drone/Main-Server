@@ -103,6 +103,11 @@ class Restaurant < ActiveRecord::Base
     end
   end
 
+  # Deprecated
+  def category
+    return self.categories.first.title
+  end
+
   private 
     def save_restaurants!
       if self.has_flyer == nil
