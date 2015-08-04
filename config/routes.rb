@@ -15,7 +15,7 @@ Shadal::Application.routes.draw do
   get 'campus/:campus_id/category/:category_id/restaurants' => 'campuses#restaurants_in_category'
 
   # New Campuses Reservation
-  post 'campus/reservation' => 'campus_reservations#create'
+  post 'campus_reservation' => 'campus_reservations#create'
   #
   ##### Campuses Controller #####
 
@@ -48,7 +48,7 @@ Shadal::Application.routes.draw do
   #
   # New User Request
   # 
-  post 'user/request' => 'user_requests#create'
+  post 'user_request' => 'user_requests#create'
   #
   ##### Users Controller #####
 
