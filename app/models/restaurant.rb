@@ -107,6 +107,12 @@ class Restaurant < ActiveRecord::Base
   def category
     return self.categories.first.title
   end
+  def openingHours
+    return self.opening_hours
+  end
+  def closingHours
+    return self.closing_hours
+  end
 
   private 
     def save_restaurants!

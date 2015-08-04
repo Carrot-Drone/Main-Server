@@ -22,8 +22,6 @@ class CampusesController < ApplicationController
     if File.exist?("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
       if File.ctime("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json") > Time.now - 60*60*24
         json = File.read("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
-      else
-        File.delete("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
       end
     end
 
@@ -42,6 +40,9 @@ class CampusesController < ApplicationController
           }
         }
       )
+      if File.exist?("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
+        File.delete("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
+      end
       file = File.open("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json", "w")
       file.write(json)
     end

@@ -14,6 +14,14 @@ ActiveAdmin.register Flyer do
     end
   end
 
+  form do |f|
+    inputs 'Details' do
+      input :restaurant, as: :select, collection: [Restaurant.find(params[:restaurant_id])],
+        include_blank: false
+      input :flyer
+    end
+  end
+
   controller do
     before_action :set_flyer, only: [:show, :edit, :update, :destroy]
     before_action :authenticate_flyer, only: [:show, :edit, :update, :destroy]
@@ -27,7 +35,7 @@ ActiveAdmin.register Flyer do
     def authenticate_flyer
       if current_admin == nil
         redirect_to :root
-      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @flyer.restaurant.campus.name_eng
+      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @flyer.restaurant.categories.first.campus.name_eng
         redirect_to :root
       end
     end
