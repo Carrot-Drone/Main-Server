@@ -55,7 +55,7 @@ Shadal::Application.routes.draw do
   ##### Devices Controller #####
   #
   # Device
-  post 'update_device' => 'devices#update_device'
+  post 'device' => 'devices#update'
   #
   ##### Devices Controller #####
 

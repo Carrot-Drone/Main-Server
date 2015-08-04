@@ -1,5 +1,5 @@
 class DevicesController < ApplicationController
-  def update_device
+  def update
     uuid = params[:uuid]
     type = params[:device_type]
     campus_id = params[:campus_id]
