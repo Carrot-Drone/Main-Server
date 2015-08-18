@@ -1,5 +1,6 @@
 class DevicesController < ApplicationController
-  def update_device
+  skip_before_filter  :verify_authenticity_token
+  def update
     uuid = params[:uuid]
     type = params[:device_type]
     campus_id = params[:campus_id]

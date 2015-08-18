@@ -4,7 +4,7 @@ ActiveAdmin.register Campus do
   # check action_methods on 'controller do'
  
   permit_params do
-   params = [:name_kor, :name_kor_short]
+   params = [:name_kor, :name_kor_short, :administrator]
    params.push :email if current_admin.is_super_admin == true 
    params.push :is_confirmed if current_admin.is_super_admin == true
   end
@@ -15,6 +15,7 @@ ActiveAdmin.register Campus do
     column :name_kor
     column :name_kor_short
     column :email
+    column :administrator
     column "Categories" do |campus|
       link_to('Categories', admin_campus_categories_path(campus))
     end
@@ -42,6 +43,7 @@ ActiveAdmin.register Campus do
         input :email
         input :is_confirmed
       end
+      input :administrator
     end
     actions
   end

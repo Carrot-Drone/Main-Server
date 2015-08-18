@@ -1,4 +1,5 @@
 class RestaurantSuggestionsController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   def create
     uuid = params[:uuid]
     campus_id = params[:campus_id]
@@ -21,13 +22,24 @@ class RestaurantSuggestionsController < ApplicationController
       rsu.campus_name = name
       rsu.restaurant_phone_number = phone_number
       rsu.restaurant_office_hours = office_hours
-      rsu.is_suggested_by_restaurant = is_suggested_by_restaurant == "true"
+      rsu.is_suggested_by_restaurant = is_suggested_by_restaurant == "1"
+
       if files != nil and files.count != 0
-        files.each do |file|
+        files.each_with_index do |data, index|
+          data = Base64.decode64(data)
+          data = self.hex_to_string(data)
+          data = StringIO.new(data)
+          #data = StringIO.new(Base64.decode64(data))
+          data.class.class_eval {attr_accessor :original_filename, :content_type}
+          data.original_filename = "test1.jpeg"
+          data.content_type = "image/jpeg"
+          
           flyer = Flyer.new
           flyer.restaurant_suggestion = rsu
-          flyer.flyer = file
-          flyer.save
+          flyer.flyer = data
+          flyer.save!
+
+          GC.start
         end
       end
       rsu.save
@@ -37,4 +49,14 @@ class RestaurantSuggestionsController < ApplicationController
       render nothing: true, status: :bad_request
     end
   end 
+
+  def hex_to_string(hex)
+    temp = hex.gsub("\s", "");
+    ret = []
+    (0...temp.size()/2).each{|index| ret[index] = [temp[index*2, 2]].pack("H2")}
+    file = String.new
+    ret.each { |x| file << x}
+    file  
+  end
+
 end

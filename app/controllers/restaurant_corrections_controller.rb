@@ -1,7 +1,8 @@
 class RestaurantCorrectionsController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   def create
     restaurant_id = params[:restaurant_id]
-    major_correction = params[:major]
+    major_correction = params[:major_correction]
     details = params[:details]
     uuid = params[:uuid]
     device = Device.find_by_uuid(uuid)

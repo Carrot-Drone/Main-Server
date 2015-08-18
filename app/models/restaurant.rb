@@ -103,6 +103,20 @@ class Restaurant < ActiveRecord::Base
     end
   end
 
+  # Deprecated
+  def category
+    return self.categories.first.title
+  end
+  def openingHours
+    return self.opening_hours
+  end
+  def closingHours
+    return self.closing_hours
+  end
+  def coupon_string
+    return self.notice
+  end
+
   private 
     def save_restaurants!
       if self.has_flyer == nil

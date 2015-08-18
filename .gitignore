@@ -24,7 +24,8 @@ config/secrets.yml
 
 # public assets
 public/assets/**
-pulbic/flyers
+public/flyers
+public/campuses
 
 #Ignore Image files 
 *.jpg

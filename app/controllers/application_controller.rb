@@ -9,7 +9,8 @@ class ApplicationController < ActionController::Base
 
   def minimum_app_version
     @json = Hash.new
-    @json[:minimum_ios_version] = "301"
+    @json[:minimum_ios_version] = "3.0.1"
+    @json[:ios_appstore_url] = "https://itunes.apple.com/kr/app/id726115856"
     @json[:minimum_android_version] = "300"
 
     render json: @json

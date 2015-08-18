@@ -2,7 +2,7 @@ ActiveAdmin.register Menu do
   menu priority: 2
   belongs_to :restaurant
 
-  permit_params :section, :name, :price, :position
+  permit_params :section, :name, :price, :position, :description
 
   config.sort_order = 'position_asc'
   config.paginate = false
@@ -18,6 +18,7 @@ ActiveAdmin.register Menu do
     column :section
     column :name
     column :price
+    column :description
     column "Submenus" do |menu|
       link_to('하위 메뉴', admin_menu_submenus_path(menu, :category_id => params[:category_id]))
     end
@@ -37,6 +38,7 @@ ActiveAdmin.register Menu do
 
       input :name
       input :price
+      input :description
       actions
     end
   end

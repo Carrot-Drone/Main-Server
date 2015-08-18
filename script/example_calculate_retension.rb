@@ -2,7 +2,7 @@ Restaurant.find_each do |res|
   # Brand New Restaurant
   if res.created_at > Time.now-60*60*24*30
     puts "#{res.name} : Brand New"
-    res.retention = nil
+    res.retention = -1
     res.save
     next
   end
@@ -11,7 +11,7 @@ Restaurant.find_each do |res|
   total_number_of_users = UsersRestaurant.where("restaurant_id = ? AND number_of_calls_for_system != 0", res.id).count
   if total_number_of_users < 5 
     puts "#{res.name} : Less"
-    res.retention = nil
+    res.retention = -1
     res.save
     next  
   end
