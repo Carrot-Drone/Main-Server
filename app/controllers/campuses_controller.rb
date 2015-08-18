@@ -48,8 +48,14 @@ class CampusesController < ApplicationController
           }
         }
       )
+      if File.exist?("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
+        File.delete("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
+      end
+      file = File.open("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json", "w")
+      file.write(json)
     end
-    render json: @json 
+
+    render json: json 
   end
 
   def restaurants_in_category

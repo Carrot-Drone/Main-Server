@@ -82,14 +82,22 @@ class RestaurantsController < ApplicationController
     campus = Campus.find_by_name_eng(params[:campus])
     uuid = params[:uuid]
 
-    categories = campus.categories
-    restaurants = categories.map do |c| 
-      c.restaurants.each do |res|
-        res.category = c.title
-        res.uuid = uuid
-      end.flatten
+=begin
+    if not File.exist?("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
+      @json = File.read("#{Rails.root}/public/campuses/cached_data/#{campus.id}.json")
+      @json = JSON.parse(@json)
+      @json = @json.map {|c| c["restaurants"]}.flatten
+      @json = @json.to_json
     end
-    restaurants = restaurants.flatten
+=end
+    json = nil
+    Dir.mkdir("#{Rails.root}/public/campuses") unless Dir.exists?("#{Rails.root}/public/campuses")
+    Dir.mkdir("#{Rails.root}/public/campuses/cached_data") unless Dir.exists?("#{Rails.root}/public/campuses/cached_data")
+    if File.exist?("#{Rails.root}/public/campuses/cached_data/#{campus.id}_old.json")
+      if File.ctime("#{Rails.root}/public/campuses/cached_data/#{campus.id}_old.json") > Time.now - 60*60*24
+        json = File.read("#{Rails.root}/public/campuses/cached_data/#{campus.id}_old.json")
+      end
+    end
 
     if json == nil
       categories = campus.categories
@@ -101,7 +109,6 @@ class RestaurantsController < ApplicationController
         c.restaurants
       end
       restaurants = restaurants.flatten
-
       json = restaurants.to_json(
         :except => [:opening_hours, :closing_hours],
         :methods => [:flyers_url, :category, :has_flyer, :openingHours, :closingHours, :is_new, :coupon_string], 
@@ -115,7 +122,7 @@ class RestaurantsController < ApplicationController
       file.write(json)
     end
 
-    render json: @json 
+    render json: json 
   end
   
   def checkForResInCategory
@@ -142,7 +149,7 @@ class RestaurantsController < ApplicationController
 
     @restaurant = Restaurant.find_by_id(restaurant_id)
     if @restaurant == nil
-      @restaurant = Restaurant.select{|r| r.phone_number == params[:phone_number] and r.campus.name_eng == params[:campus]}.first
+      @restaurant = Restaurant.select{|r| r.phone_number == params[:phone_number] and r.categories.first.campus.name_eng == params[:campus]}.first
     end
 
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
@@ -158,6 +165,7 @@ class RestaurantsController < ApplicationController
       render json: @json 
     end
   end
+
   def new_menu
     restaurant = Restaurant.all.select {|r| r.campus == "Gwanak" and r.phone_number == params[:phoneNumber].delete(' ')}.first
 

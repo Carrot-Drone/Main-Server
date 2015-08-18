@@ -143,6 +143,8 @@ ActiveRecord::Schema.define(version: 20150813151911) do
     t.text     "description",   limit: 65535
   end
 
+  add_index "menus", ["restaurant_id"], name: "index_menus_on_restaurant_id", using: :btree
+
   create_table "popup", force: :cascade do |t|
     t.string   "external_link", limit: 255
     t.text     "description",   limit: 255
