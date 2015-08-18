@@ -1,4 +1,5 @@
 class CampusReservationsController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   def create
     name = params[:campus_name]
     phone_number = params[:phone_number]

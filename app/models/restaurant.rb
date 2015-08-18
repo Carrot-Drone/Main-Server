@@ -113,6 +113,9 @@ class Restaurant < ActiveRecord::Base
   def closingHours
     return self.closing_hours
   end
+  def coupon_string
+    return self.notice
+  end
 
   private 
     def save_restaurants!

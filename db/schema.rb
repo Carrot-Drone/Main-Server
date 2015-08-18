@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150803104228) do
+ActiveRecord::Schema.define(version: 20150813151911) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -48,16 +48,17 @@ ActiveRecord::Schema.define(version: 20150803104228) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "call_logs", force: :cascade do |t|
-    t.string   "phoneNumber",   limit: 255
+    t.string   "phoneNumber",     limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "restaurant_id", limit: 4
-    t.string   "device_type",   limit: 255
-    t.string   "campus",        limit: 255
-    t.integer  "device_id",     limit: 4
-    t.integer  "campus_id",     limit: 4
-    t.integer  "user_id",       limit: 4
-    t.integer  "category_id",   limit: 4
+    t.integer  "restaurant_id",   limit: 4
+    t.string   "device_type",     limit: 255
+    t.string   "campus",          limit: 255
+    t.integer  "device_id",       limit: 4
+    t.integer  "campus_id",       limit: 4
+    t.integer  "user_id",         limit: 4
+    t.integer  "category_id",     limit: 4
+    t.boolean  "has_recent_call",             default: false
   end
 
   add_index "call_logs", ["campus_id"], name: "index_call_logs_on_campus_id", using: :btree
@@ -86,11 +87,12 @@ ActiveRecord::Schema.define(version: 20150803104228) do
     t.string   "name_eng",       limit: 255
     t.string   "name_kor",       limit: 255
     t.text     "description",    limit: 65535
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
     t.string   "name_kor_short", limit: 255
     t.string   "email",          limit: 255
     t.boolean  "is_confirmed",                 default: false
+    t.string   "administrator",  limit: 255,   default: "캠퍼스:달"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -192,12 +194,13 @@ ActiveRecord::Schema.define(version: 20150803104228) do
     t.string   "name",          limit: 255
     t.string   "phone_number",  limit: 255
     t.boolean  "has_coupon",                  default: false
-    t.text     "coupon_string", limit: 65535
+    t.text     "notice",        limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.float    "opening_hours", limit: 24
     t.float    "closing_hours", limit: 24
     t.float    "retention",     limit: 24
+    t.integer  "minimum_price", limit: 4,     default: 0
   end
 
   create_table "submenus", force: :cascade do |t|
@@ -228,10 +231,10 @@ ActiveRecord::Schema.define(version: 20150803104228) do
   create_table "users_restaurants", force: :cascade do |t|
     t.integer  "user_id",                    limit: 4
     t.integer  "restaurant_id",              limit: 4
-    t.integer  "number_of_calls_for_system", limit: 4
+    t.integer  "number_of_calls_for_system", limit: 4, default: 0
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
-    t.integer  "number_of_calls_for_user",   limit: 4
+    t.integer  "number_of_calls_for_user",   limit: 4, default: 0
     t.integer  "preference",                 limit: 4, default: 0
   end
 

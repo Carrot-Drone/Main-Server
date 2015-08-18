@@ -1,4 +1,5 @@
 class UserRequestsController < ApplicationController
+  skip_before_filter  :verify_authenticity_token
   def create
     uuid = params[:uuid]
     email = params[:email]
@@ -8,7 +9,10 @@ class UserRequestsController < ApplicationController
       ur = UserRequest.new
 
       device = Device.find_by_uuid(uuid)
-      user = device.user
+      user = nil
+      if device != nil
+        user = device.user
+      end
 
       ur.user = user
       ur.email = email

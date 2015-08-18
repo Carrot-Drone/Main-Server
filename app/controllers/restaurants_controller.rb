@@ -13,14 +13,14 @@ class RestaurantsController < ApplicationController
 
     restaurant = Restaurant.find(restaurant_id)
     restaurant.uuid = uuid
-    if restaurant.updated_at.to_s <= updated_at
-      render nothing: true, status: :no_content 
+    if restaurant.updated_at.to_s == updated_at
+      render nothing: true, status: :no_content
     else
       @json = restaurant.to_json(
         :methods => [:flyers_url, :number_of_my_calls, :total_number_of_calls, :my_preference, :retention, :total_number_of_goods, :total_number_of_bads, :has_flyer, :is_new], 
         :include => {
           :menus =>{
-            :except => [:id, :created_at, :updated_at],
+            :except => [:created_at, :updated_at],
             :include => :submenus
           }
         }
@@ -59,7 +59,8 @@ class RestaurantsController < ApplicationController
       ur = ur.first
     end
     ur.preference = pref
-    ur.save
+    ur.save!
+    Rails.logger.error ur.id
     render nothing: true, status: :ok
   end
   private
@@ -108,10 +109,9 @@ class RestaurantsController < ApplicationController
         c.restaurants
       end
       restaurants = restaurants.flatten
-
       json = restaurants.to_json(
         :except => [:opening_hours, :closing_hours],
-        :methods => [:flyers_url, :category, :has_flyer, :openingHours, :closingHours, :is_new], 
+        :methods => [:flyers_url, :category, :has_flyer, :openingHours, :closingHours, :is_new, :coupon_string], 
         :include => :menus
       )
 
@@ -153,13 +153,15 @@ class RestaurantsController < ApplicationController
     end
 
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
+      Rails.logger.info ("fail")
       render nothing: true, status: :no_content 
     else
       @json = @restaurant.to_json(
         :except => [:opening_hours, :closing_hours],
-        :methods => [:flyers_url, :has_flyer, :category, :openingHours, :closingHours, :is_new], 
+        :methods => [:flyers_url, :has_flyer, :category, :openingHours, :closingHours, :is_new, :coupon_string], 
         :include => :menus
       )
+      Rails.logger.info (@json)
       render json: @json 
     end
   end

@@ -6,8 +6,9 @@ class CallLogsController < ApplicationController
     restaurant_id = params[:restaurant_id]
     device_uuid = params[:uuid]
     number_of_calls_for_user = params[:number_of_calls]
+    has_recent_call = params[:has_recent_call]
 
-    if campus_id == nil or category_id == nil or restaurant_id == nil or device_uuid == nil or number_of_calls_for_user == nil
+    if campus_id == nil or restaurant_id == nil or device_uuid == nil or number_of_calls_for_user == nil
       render :nothing => true, :status => :bad_request
     end
 
@@ -15,6 +16,7 @@ class CallLogsController < ApplicationController
     call_log.campus_id = campus_id
     call_log.category_id = category_id
     call_log.restaurant_id = restaurant_id
+    call_log.has_recent_call = has_recent_call == "1"
     device = Device.find_by_uuid(device_uuid)
     if device != nil
       call_log.device = device
@@ -28,6 +30,8 @@ class CallLogsController < ApplicationController
       usersRestaurants = UsersRestaurant.new
       usersRestaurants.user = call_log.user
       usersRestaurants.restaurant = call_log.restaurant
+      usersRestaurants.number_of_calls_for_user = 0
+      usersRestaurants.number_of_calls_for_system = 0
     end
     usersRestaurants.number_of_calls_for_user = number_of_calls_for_user
     usersRestaurants.number_of_calls_for_system += 1

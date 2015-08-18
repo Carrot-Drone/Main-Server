@@ -5,6 +5,9 @@ Shadal::Application.routes.draw do
 
   ##### Campus Controller #####
   #
+  # Return campus
+  get 'campus/:campus_id' => 'campuses#show'
+
   # Returns campuses meta data
   get 'campuses' => 'campuses#campuses'
 
@@ -13,6 +16,9 @@ Shadal::Application.routes.draw do
 
   # Returns restaurants' meta data in campus
   get 'campus/:campus_id/category/:category_id/restaurants' => 'campuses#restaurants_in_category'
+
+  # Return Recommended Restaurants in campus
+  get 'campus/:campus_id/recommended_restaurants' => 'campuses#recommended_restaurants'
 
   # New Campuses Reservation
   post 'campus_reservation' => 'campus_reservations#create'
@@ -29,7 +35,7 @@ Shadal::Application.routes.draw do
   post 'restaurant/:restaurant_id/preference' => 'restaurants#preference'
 
   # New Restaurant Correction
-  post 'restaurant/:restaurant_id/restaurant_corrections' => 'restaurant_corrections#create'
+  post 'restaurant/:restaurant_id/restaurant_correction' => 'restaurant_corrections#create'
 
   # New Restaurant Suggestion
   post 'restaurant_suggestion' => 'restaurant_suggestions#create'
@@ -55,7 +61,7 @@ Shadal::Application.routes.draw do
   ##### Devices Controller #####
   #
   # Device
-  post 'device' => 'devices#update'
+  post 'update_device' => 'devices#update'
   #
   ##### Devices Controller #####
 
