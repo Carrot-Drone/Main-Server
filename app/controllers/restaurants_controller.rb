@@ -35,7 +35,7 @@ class RestaurantsController < ApplicationController
     pref = params[:preference]
     pref ||= 0
     pref = pref.to_i
-    pref = 0 if pref == nil
+    pref = 0 if pref == nil or pref == 0
     pref = 1 if pref >= 1
     pref = -1 if pref <= -1
 
@@ -153,7 +153,6 @@ class RestaurantsController < ApplicationController
     end
 
     if @restaurant.updated_at.to_s == Time.parse(updated_at).to_s
-      Rails.logger.info ("fail")
       render nothing: true, status: :no_content 
     else
       @json = @restaurant.to_json(
@@ -161,7 +160,6 @@ class RestaurantsController < ApplicationController
         :methods => [:flyers_url, :has_flyer, :category, :openingHours, :closingHours, :is_new, :coupon_string], 
         :include => :menus
       )
-      Rails.logger.info (@json)
       render json: @json 
     end
   end

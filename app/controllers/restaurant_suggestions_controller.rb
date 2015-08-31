@@ -16,6 +16,8 @@ class RestaurantSuggestionsController < ApplicationController
     end
 
     if campus_id != nil and name != nil and phone_number != nil
+      render nothing: true, status: :ok
+      
       rsu = RestaurantSuggestion.new
       rsu.user = user
       rsu.campus_id = campus_id
@@ -25,26 +27,27 @@ class RestaurantSuggestionsController < ApplicationController
       rsu.is_suggested_by_restaurant = is_suggested_by_restaurant == "1"
 
       if files != nil and files.count != 0
-        files.each_with_index do |data, index|
-          data = Base64.decode64(data)
-          data = self.hex_to_string(data)
-          data = StringIO.new(data)
-          #data = StringIO.new(Base64.decode64(data))
-          data.class.class_eval {attr_accessor :original_filename, :content_type}
-          data.original_filename = "test1.jpeg"
-          data.content_type = "image/jpeg"
-          
-          flyer = Flyer.new
-          flyer.restaurant_suggestion = rsu
-          flyer.flyer = data
-          flyer.save!
+        Thread.new {
+          files.each_with_index do |data, index|
+            data = Base64.decode64(data)
+            data = self.hex_to_string(data)
+            data = StringIO.new(data)
+            #data = StringIO.new(Base64.decode64(data))
+            data.class.class_eval {attr_accessor :original_filename, :content_type}
+            data.original_filename = "test1.jpeg"
+            data.content_type = "image/jpeg"
 
-          GC.start
-        end
+            flyer = Flyer.new
+            flyer.restaurant_suggestion = rsu
+            flyer.flyer = data
+            flyer.save!
+
+            GC.start
+          end
+        }
       end
       rsu.save
 
-      render nothing: true, status: :ok
     else 
       render nothing: true, status: :bad_request
     end

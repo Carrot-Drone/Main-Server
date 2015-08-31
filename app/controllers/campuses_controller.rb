@@ -77,7 +77,7 @@ class CampusesController < ApplicationController
     restaurants = restaurants.sort_by{|r| r.total_number_of_calls}
 
     trend = restaurants.reverse[1...10]
-    trend = trend.map{|r| {:id => r.id, :reason => "우리 학교 트랜드"}}
+    trend = trend.map{|r| {:id => r.id, :reason => "우리 학교 트렌드"}}
 
     new = restaurants[1...10] 
     new = new.map{|r| {:id => r.id, :reason => "캠달에 처음이에요"}}

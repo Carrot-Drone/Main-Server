@@ -13,6 +13,8 @@ ActiveAdmin.register Restaurant do
     end
     column :name       
     column :phone_number
+    column :opening_hours
+    column :closing_hours
 
     column "Menus" do |res|
       link_to '메뉴', admin_restaurant_menus_path(res, :category_id => params[:category_id])
