@@ -12,7 +12,7 @@ ActiveAdmin.register RestaurantSuggestion do
     column :is_suggested_by_restaurant
     column :is_processed
     column "Flyer" do |rs|
-      link_to('전단지', admin_restaurant_suggestion_flyers_path(rs))
+      link_to(rs.flyers.count, admin_restaurant_suggestion_flyers_path(rs))
     end
     actions
   end
