@@ -11,4 +11,29 @@ class Admin < ActiveRecord::Base
     end
     Campus.where(id: a.map(&:id))
   end
+
+  def self.owned_restaurant_suggestion(current_admin)
+    a = nil
+    if current_admin.is_super_admin
+      a = RestaurantSuggestion.all
+    else
+      a = RestaurantSuggestion.all.select do |rs|
+        rs.campus.email == current_admin.email
+      end
+    end
+    RestaurantSuggestion.where(id: a.map(&:id))
+  end
+
+  def self.owned_restaurant_correction(current_admin)
+    a = nil
+    if current_admin.is_super_admin
+      a = RestaurantCorrection.all
+    else
+      a = RestaurantCorrection.all.select do |rc|
+        rc.restaurant.categories[0].campus.eamil = current_admin.email
+      end
+    end
+    RestaurantCorrection.where(id: a.map(&:id))
+  end
+
 end

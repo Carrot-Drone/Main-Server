@@ -1,8 +1,9 @@
 ActiveAdmin.register Flyer do
-  menu priority: 3
-  belongs_to :restaurant
+  menu false
+  #belongs_to :restaurant
+  #belongs_to :restaurant_suggestion
 
-  permit_params :flyer, :restaurant_id
+  permit_params :flyer, :restaurant_id, :restaurant_suggestion_id
 
   sidebar "Back to", only: [:index] do
     ul do
@@ -16,15 +17,18 @@ ActiveAdmin.register Flyer do
 
   form do |f|
     inputs 'Details' do
-      input :restaurant, as: :select, collection: [Restaurant.find(params[:restaurant_id])],
-        include_blank: false
+      if params[:restaurant_id] != nil or params[:restaurant_id] != 0
+        input :restaurant, as: :select, collection: [Restaurant.find(params[:restaurant_id])],
+          include_blank: false
+      end
       input :flyer
     end
   end
 
   controller do
+    belongs_to :restaurant, :restaurant_suggestion, polymorphic: true
     before_action :set_flyer, only: [:show, :edit, :update, :destroy]
-    before_action :authenticate_flyer, only: [:show, :edit, :update, :destroy]
+    before_action :authenticate_flyer, only: [:set_flyer]
 
     private
     # Use callbacks to share common setup or constraints between actions.
@@ -33,7 +37,7 @@ ActiveAdmin.register Flyer do
     end
 
     def authenticate_flyer
-      if current_admin == nil
+      if current_admin == nil and @flyer.restaurant != nil
         redirect_to :root
       elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @flyer.restaurant.categories.first.campus.name_eng
         redirect_to :root

@@ -3,6 +3,15 @@ Shadal::Application.routes.draw do
   devise_for :admins
   ActiveAdmin.routes(self)
 
+  namespace :admin do
+    resources :restaurants do
+      resources :flyers
+    end
+    resources :restaurant_suggestions do
+      resources :flyers
+    end
+  end
+
   ##### Application Controller #####
   #
   # Create campus with json

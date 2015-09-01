@@ -84,13 +84,16 @@ ActiveAdmin.register Restaurant do
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
       @restaurant = Restaurant.find(params[:id])
+      params[:category_id] ||= @restaurant.categories[0].id
     end
 
     def authenticate_restaurant
       if current_admin == nil
         redirect_to :root
         false
+      elsif current_admin.is_super_admin == true
       elsif not Admin.owned_campus(current_admin).map{|campus| campus.categories.map{|c| c.id}}.flatten.include? params[:category_id].to_i
+        Rails.logger.error "ABC"
         redirect_to :root
         false 
       end
@@ -105,7 +108,7 @@ ActiveAdmin.register Restaurant do
     end
   end
 
-  sidebar "Back to", only: [:index] do
+  sidebar "Back to", only: [:index, :show] do
     ul do
       if params[:category_id] != nil
         li link_to "Categories", admin_campus_categories_path(Campus.find(Category.find(params[:category_id]).campus_id))
