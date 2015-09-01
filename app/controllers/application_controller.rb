@@ -78,10 +78,10 @@ class ApplicationController < ActionController::Base
         res_json['closing_hours'] ||= ""
         res_json['closing_hours'].gsub!(/[^0-9,.]/, "")
 
-        if restaurant.opening_hours == nil or restaurant.opening_hours == 0 
+        if res_json['opening_hours'] != "0"
           restaurant.opening_hours = res_json['opening_hours'].to_f
         end
-        if restaurant.opening_housr == nil or restaurant.opening_hours == 0 
+        if res_json['closing_hours'] != "0"
           restaurant.closing_hours = res_json['closing_hours'].to_f
         end
 
