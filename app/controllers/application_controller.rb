@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
 
       value ||= []
       value.each do |res_json|
-        restaurants = category.restaurants.select {|r| r.phone_number == res_json['phone_number']}
+        restaurants = category.restaurants.select {|r| r.phone_number.gsub(/[^0-9]/, "") == res_json['phone_number'].gsub(/[^0-9]/, "")}
         restaurant = nil
         if restaurants.count > 1
           Rails.logger.error "Error! Duplicated Restaurant Phonenumber"
@@ -63,20 +63,30 @@ class ApplicationController < ActionController::Base
         else
           # New Restaurant
           restaurant = Restaurant.new
-          restaurant.name = res_json['name']
-          res_json['phone_number'] ||= ""
-          phone_number = res_json['phone_number'].gsub(/[^0-9]/, "")
-          restaurant.phone_number = parse_phone_number(phone_number)
-          restaurant.notice = res_json['notice']
-          res_json['opening_hours'] ||= ""
-          res_json['opening_hours'].gsub!(/[^0-9,.]/, "")
-          restaurant.opening_hours = res_json['opening_hours'].to_f
-          res_json['closing_hours'] ||= ""
-          res_json['closing_hours'].gsub!(/[^0-9,.]/, "")
-          restaurant.closing_hours = res_json['closing_hours'].to_f
-          restaurant.categories.push(category)
-          restaurant.save
         end
+
+        # Set Restaurant
+        restaurant.name = res_json['name']
+        res_json['phone_number'] ||= ""
+        phone_number = res_json['phone_number'].gsub(/[^0-9]/, "")
+        restaurant.phone_number = parse_phone_number(phone_number)
+        restaurant.notice = res_json['notice']
+
+        res_json['opening_hours'] ||= ""
+        res_json['opening_hours'].gsub!(/[^0-9,.]/, "")
+
+        res_json['closing_hours'] ||= ""
+        res_json['closing_hours'].gsub!(/[^0-9,.]/, "")
+
+        if restaurant.opening_hours == nil or restaurant.opening_hours == 0 
+          restaurant.opening_hours = res_json['opening_hours'].to_f
+        end
+        if restaurant.opening_housr == nil or restaurant.opening_hours == 0 
+          restaurant.closing_hours = res_json['closing_hours'].to_f
+        end
+
+        restaurant.categories.push(category)
+        restaurant.save
 
         # Remove existing Menus
         restaurant.menus.each do |menu|
