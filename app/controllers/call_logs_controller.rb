@@ -16,7 +16,11 @@ class CallLogsController < ApplicationController
     call_log.campus_id = campus_id
     call_log.category_id = category_id
     call_log.restaurant_id = restaurant_id
-    call_log.has_recent_call = has_recent_call == "1"
+    if has_recent_call == 1 or has_recent_call == "1"
+      call_log.has_recent_call = true
+    else
+      call_log.has_recent_call = false
+    end
     device = Device.find_by_uuid(device_uuid)
     if device != nil
       call_log.device = device

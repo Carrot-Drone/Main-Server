@@ -19,6 +19,7 @@ ActiveAdmin.register CallLog do
     end
     column :phoneNumber
     column :device_type
+    column :has_recent_call
     column :created_at
 
     if current_admin.is_super_admin == true

@@ -8,7 +8,7 @@ class RestaurantSuggestionsController < ApplicationController
     office_hours = params[:office_hours]
     files = params[:files]
     is_suggested_by_restaurant = params[:is_suggested_by_restaurant]
-    device = params[:device]
+    device_type = params[:device]
 
     device = Device.find_by_uuid(uuid)
     user = nil
@@ -25,13 +25,17 @@ class RestaurantSuggestionsController < ApplicationController
       rsu.campus_name = name
       rsu.restaurant_phone_number = phone_number
       rsu.restaurant_office_hours = office_hours
-      rsu.is_suggested_by_restaurant = is_suggested_by_restaurant == "1"
+      if is_suggested_by_restaurant == 1 or is_suggested_by_restaurant == "1"
+        rsu.is_suggested_by_restaurant = true
+      else
+        rsu.is_suggested_by_restaurant = false
+      end
 
       if files != nil and files.count != 0
         Thread.new {
           files.each_with_index do |data, index|
             data = Base64.decode64(data)
-            if not device == "android"
+            if not device_type == "android"
               data = self.hex_to_string(data)
             end
             data = StringIO.new(data)
