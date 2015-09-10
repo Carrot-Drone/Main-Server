@@ -40,7 +40,8 @@ ActiveAdmin.register Submenu do
     def create
       create! do |format|
         format.html {
-          redirect_to admin_menu_submenus_path 
+          redirect_to new_admin_menu_submenu_path(params[:menu_id])
+          #redirect_to admin_menu_submenus_path 
         }
       end
     end

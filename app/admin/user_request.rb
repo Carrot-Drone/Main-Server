@@ -2,10 +2,16 @@ ActiveAdmin.register UserRequest do
   index do
     column :email
     column :details
+    column :is_processed
+    column :created_at
+    column :updated_at
+    if current_admin.is_super_admin?
+      actions
+    end
   end
 
   controller do
-    before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
+    before_action :set_user_request, only: [:show, :edit, :update, :destroy]
     before_action :authenticate_user_request, only: [:show, :edit, :create, :update, :destroy]
     private
     def set_user_request

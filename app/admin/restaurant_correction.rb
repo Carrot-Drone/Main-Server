@@ -1,4 +1,5 @@
 ActiveAdmin.register RestaurantCorrection do
+  permit_params :is_processed, :details, :major_correction
 
   index do
     column :major_correction
@@ -7,6 +8,10 @@ ActiveAdmin.register RestaurantCorrection do
     column "Restaurant" do |rc|
       res = rc.restaurant
       link_to(res.name, admin_restaurant_path(res))
+    end
+    column :is_processed
+    if current_admin.is_super_admin?
+      actions
     end
   end
 

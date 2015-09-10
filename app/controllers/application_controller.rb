@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
     @json = Hash.new
     @json[:minimum_ios_version] = "3.0.1"
     @json[:ios_appstore_url] = "https://itunes.apple.com/kr/app/id726115856"
-    @json[:minimum_android_version] = "300"
+    @json[:minimum_android_version] = "330"
 
     render json: @json
   end
@@ -58,11 +58,13 @@ class ApplicationController < ActionController::Base
         restaurant = nil
         if restaurants.count > 1
           Rails.logger.error "Error! Duplicated Restaurant Phonenumber"
+          Rails.logger.error res_json['name'] + " " + res_json['phone_number']
         elsif restaurants.count == 1
           restaurant = restaurants[0]
         else
           # New Restaurant
           restaurant = Restaurant.new
+          restaurant.categories.push(category)
         end
 
         # Set Restaurant
@@ -85,11 +87,12 @@ class ApplicationController < ActionController::Base
           restaurant.closing_hours = res_json['closing_hours'].to_f
         end
 
-        restaurant.categories.push(category)
         restaurant.save
 
         # Remove existing Menus
+        Rails.logger.info restaurant.name
         restaurant.menus.each do |menu|
+          Rails.logger.info menu.name
           menu.submenus.each do |submenu|
             submenu.destroy
           end

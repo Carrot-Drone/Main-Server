@@ -17,6 +17,9 @@ ActiveAdmin.register Category do
   config.clear_sidebar_sections!
 
   index do
+    column "Campus" do |category|
+      raw category.campus.name_kor
+    end
     column :title
     column "# of res" do |category|
       raw category.restaurants.count

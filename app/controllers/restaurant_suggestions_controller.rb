@@ -22,7 +22,7 @@ class RestaurantSuggestionsController < ApplicationController
       rsu = RestaurantSuggestion.new
       rsu.user = user
       rsu.campus_id = campus_id
-      rsu.campus_name = name
+      rsu.restaurant_name = name
       rsu.restaurant_phone_number = phone_number
       rsu.restaurant_office_hours = office_hours
       if is_suggested_by_restaurant == 1 or is_suggested_by_restaurant == "1"

@@ -21,6 +21,7 @@ ActiveAdmin.register RestaurantSuggestion do
     inputs :campus_name
     inputs :restaurant_name
     inputs :is_processed
+    actions
   end
 
   config.clear_sidebar_sections!

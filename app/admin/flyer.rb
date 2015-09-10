@@ -23,6 +23,7 @@ ActiveAdmin.register Flyer do
       end
       input :flyer
     end
+    actions
   end
 
   controller do

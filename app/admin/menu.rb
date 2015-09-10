@@ -20,7 +20,15 @@ ActiveAdmin.register Menu do
     column :price
     column :description
     column "Submenus" do |menu|
-      link_to('하위 메뉴', admin_menu_submenus_path(menu, :category_id => params[:category_id]))
+      str = ""
+      menu.submenus.each do |submenu|
+        str += submenu.name + " " + submenu.price.to_s + "\n\r"
+      end
+      if str == ""
+        str = "하위메뉴"
+      end
+      #link_to(menu.submenus.count, admin_menu_submenus_path(menu, :category_id => params[:category_id]))
+      link_to(str, admin_menu_submenus_path(menu, :category_id => params[:category_id]))
     end
     column :updated_at
     actions
@@ -49,6 +57,9 @@ ActiveAdmin.register Menu do
 
   sidebar "Back to", only: [:index] do
     ul do
+      res = Restaurant.find(params[:restaurant_id])
+      params[:category_id] ||= res.categories[0].id
+
       if params[:category_id] != nil
         li link_to "Restaurants", admin_category_restaurants_path(params[:category_id])
         li link_to "Categories", admin_campus_categories_path(Category.find(params[:category_id]).campus_id)
@@ -62,17 +73,17 @@ ActiveAdmin.register Menu do
     before_action :authenticate_menu, only: [:show, :edit, :update, :destroy]
     def update
       update! do |format|
-        format.html { redirect_to admin_restaurant_menus_path }
+        format.html { redirect_to admin_restaurant_menus_path(:category_id => params[:category_id]) }
       end
     end
     def create
       create! do |format|
-        format.html { redirect_to new_admin_restaurant_menu_path(params[:restaurant_id], {:section => @menu.section})}
+        format.html { redirect_to new_admin_restaurant_menu_path(params[:restaurant_id], {:section => @menu.section, :category_id => params[:category_id]})}
       end
     end
     def destroy
       destroy! do |format|
-        format.html { redirect_to admin_restaurant_menus_path }
+        format.html { redirect_to admin_restaurant_menus_path(:category_id => params[:category_id]) }
       end
     end
 
@@ -102,7 +113,7 @@ ActiveAdmin.register Menu do
     def authenticate_menu
       if current_admin == nil
         redirect_to :root
-      elsif not Admin.owned_campus(current_admin).map{|x| x.name_eng}.include? @menu.restaurant.categories.first.campus.name_eng
+      elsif not Admin.owned_campus(current_admin).map{|x| x.id}.include? @menu.restaurant.categories.first.campus.id
         redirect_to :root
       end
     end

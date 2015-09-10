@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150813151911) do
+ActiveRecord::Schema.define(version: 20150907070909) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string   "namespace",     limit: 255
@@ -167,8 +167,9 @@ ActiveRecord::Schema.define(version: 20150813151911) do
     t.integer  "restaurant_id",    limit: 4
     t.string   "major_correction", limit: 255
     t.text     "details",          limit: 65535
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.boolean  "is_processed",                   default: false
   end
 
   add_index "restaurant_corrections", ["restaurant_id"], name: "index_restaurant_corrections_on_restaurant_id", using: :btree
@@ -214,11 +215,12 @@ ActiveRecord::Schema.define(version: 20150813151911) do
   add_index "submenus", ["menu_id"], name: "index_submenus_on_menu_id", using: :btree
 
   create_table "user_requests", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4
-    t.string   "email",      limit: 255
-    t.text     "details",    limit: 65535
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.integer  "user_id",      limit: 4
+    t.string   "email",        limit: 255
+    t.text     "details",      limit: 65535
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.boolean  "is_processed",               default: false
   end
 
   add_index "user_requests", ["user_id"], name: "index_user_requests_on_user_id", using: :btree
