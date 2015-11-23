@@ -66,7 +66,7 @@ class CampusesController < ApplicationController
 
     @json = restaurants.to_json(
       :only => [:id, :name, :phone_number, :has_coupon, :retention, :opening_hours, :closing_hours],
-      :methods => [:has_flyer, :is_new]
+      :methods => [:has_flyer, :is_new, :flyers_url]
     )
     render json: @json
   end 

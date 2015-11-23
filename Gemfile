@@ -21,7 +21,7 @@ gem 'yaml_db'
 gem 'whenever', :require => false
 
 # Use mysl
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
@@ -49,10 +49,15 @@ gem 'mini_magick'
 
 # Use Active Admin
 gem 'activeadmin', github: 'activeadmin'
+gem 'sass-rails'
 
 # Manage Menu order
 gem 'activeadmin-sortable'
 gem 'acts_as_list', '>= 0.1.0'  
+
+# therubyracer
+gem 'therubyracer'
+gem 'execjs'
 
 
 # Use ActiveModel has_secure_password

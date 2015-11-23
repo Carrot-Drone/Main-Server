@@ -3,7 +3,11 @@ ActiveAdmin.register RestaurantSuggestion do
 
   index do
     column "Campus" do |rs|
-      raw Campus.find(rs.campus_id).name_kor
+      if rs.campus_id == nil or rs.campus_id == 0
+        raw "???"
+      else
+        raw Campus.find(rs.campus_id).name_kor
+      end
     end
     column :campus_name
     column :restaurant_name
@@ -14,6 +18,7 @@ ActiveAdmin.register RestaurantSuggestion do
     column "Flyer" do |rs|
       link_to(rs.flyers.count, admin_restaurant_suggestion_flyers_path(rs))
     end
+    column :created_at
     actions
   end
 

@@ -1,4 +1,5 @@
 ActiveAdmin.register UserRequest do
+  permit_params :is_processed, :details
   index do
     column :email
     column :details
@@ -8,6 +9,13 @@ ActiveAdmin.register UserRequest do
     if current_admin.is_super_admin?
       actions
     end
+  end
+
+  form do |f|
+    inputs :email
+    inputs :details
+    inputs :is_processed
+    actions
   end
 
   controller do

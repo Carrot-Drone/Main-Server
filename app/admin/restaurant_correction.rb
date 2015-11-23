@@ -7,7 +7,11 @@ ActiveAdmin.register RestaurantCorrection do
     column :created_at
     column "Restaurant" do |rc|
       res = rc.restaurant
-      link_to(res.name, admin_restaurant_path(res))
+      if res == nil
+        link_to("없어진 매장")
+      else
+        link_to(res.name, admin_restaurant_path(res))
+      end
     end
     column :is_processed
     if current_admin.is_super_admin?

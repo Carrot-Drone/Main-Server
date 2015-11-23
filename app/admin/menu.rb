@@ -15,6 +15,9 @@ ActiveAdmin.register Menu do
     sortable_handle_column
     selectable_column
     column :position
+    column "Restaurant" do |menu|
+      raw menu.restaurant.name
+    end
     column :section
     column :name
     column :price

@@ -1,7 +1,7 @@
 ActiveAdmin.register Restaurant do
   #belongs_to :campus#, :class_name => "Campus"
   belongs_to :category
-  permit_params :name, :phone_number, :campus, :category, :opening_hours, :closing_hours, :has_coupon, :flyer, :notice, :minimum_price
+  permit_params :name, :phone_number, :campus, :category, :opening_hours, :closing_hours, :has_coupon, :flyer, :notice, :minimum_price, :is_closed
 
   index do
     selectable_column
@@ -23,6 +23,7 @@ ActiveAdmin.register Restaurant do
     column "Flyer" do |res|
       link_to('전단지', admin_restaurant_flyers_path(res, :category_id => params[:category_id]))
     end
+    #column :is_closed
     actions
   end
 
@@ -40,6 +41,7 @@ ActiveAdmin.register Restaurant do
       input :has_coupon
       input :notice, label: "Notice"
       input :minimum_price
+      input :is_closed
     end
     actions
   end
