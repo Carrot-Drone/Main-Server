@@ -59,6 +59,9 @@ gem 'acts_as_list', '>= 0.1.0'
 gem 'therubyracer'
 gem 'execjs'
 
+# Passenger
+gem 'passenger'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

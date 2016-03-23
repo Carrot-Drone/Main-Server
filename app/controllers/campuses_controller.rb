@@ -63,6 +63,7 @@ class CampusesController < ApplicationController
     category_id = params[:category_id]
     category = Category.find(category_id)
     restaurants = category.restaurants
+    restaurants = restaurants.select {|res| res.is_closed != true}
 
     @json = restaurants.to_json(
       :only => [:id, :name, :phone_number, :has_coupon, :retention, :opening_hours, :closing_hours],
@@ -74,6 +75,7 @@ class CampusesController < ApplicationController
   def recommended_restaurants
     campus = Campus.find(params[:campus_id])
     restaurants = campus.categories.map{|cat| cat.restaurants}.flatten
+    restaurants = restaurants.select {|res| res.is_closed != true }
     restaurants = restaurants.sort_by{|r| r.total_number_of_calls}
 
     num = 10

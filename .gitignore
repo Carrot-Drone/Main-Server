@@ -40,3 +40,6 @@ public/campuses
 # Ignore script file
 script/*.*
 !script/example_*.*
+
+# Ignore dump file
+*.dump
