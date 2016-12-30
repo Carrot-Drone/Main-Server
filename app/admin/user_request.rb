@@ -1,12 +1,12 @@
 ActiveAdmin.register UserRequest do
   permit_params :is_processed, :details
   index do
-    column :email
-    column :details
-    column :is_processed
-    column :created_at
-    column :updated_at
     if current_admin.is_super_admin?
+      column :email
+      column :details
+      column :is_processed
+      column :created_at
+      column :updated_at
       actions
     end
   end

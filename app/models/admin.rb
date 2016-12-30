@@ -30,7 +30,11 @@ class Admin < ActiveRecord::Base
       a = RestaurantCorrection.all
     else
       a = RestaurantCorrection.all.select do |rc|
-        rc.restaurant.categories[0].campus.eamil = current_admin.email
+        if rc.restaurant == nil
+          false
+        else
+          rc.restaurant.categories[0].campus.email == current_admin.email
+        end
       end
     end
     RestaurantCorrection.where(id: a.map(&:id))

@@ -16,9 +16,35 @@ class ApplicationController < ActionController::Base
     render json: @json
   end
 
+  def committers
+    @json = Array.new(1) {Hash.new}
+    hash = @json[0]
+    hash[:title] = "제 1회 우렁각시"
+    hash[:list] = [
+         {name: "김 소 연", university: "서울대학교", details: "자유전공학부 12학번"},
+         {name: "김 완 희", university: "인제대학교", details: "경영학과 10학번"},
+         {name: "서 유 지", university: "서울대학교", details: "자유전공학부 13학번"},
+         {name: "심 희 영", university: "서울대학교", details: "자유전공학부 13학번"},
+         {name: "이 명 제", university: "서울대학교", details: "자유전공학부 12학번"},
+         {name: "이 우 진", university: "울산과학기술대학교", details: "에너지자원공학과 15학번"},
+         {name: "장 다 예", university: "서울대학교", details: "정치외교학부 13학번"},
+         {name: "정 한 재", university: "세종대학교", details: "정보통신공학과 11학번"},
+         {name: "조 성 범", university: "서울대학교", details: "자유전공학부 13학번"},
+         {name: "조 시 현", university: "서울대학교", details: "자유전공학부 13학번"},
+         {name: "한 동 주", university: "서울대학교", details: "자유전공학부 15학번"},
+         {name: "황 연 우", university: "서울대학교", details: "간호학과 15학번"}
+        ]
+    render json: @json
+  end
 
+  def popup
+    @json = Hash.new
+    @json[:version] = "2"
+    @json[:title] = "서울대 관악캠 음식점 정보가\n 업데이트 되었습니다"
+    @json[:message] = "도와주신 모든분들 감사합니다. 도움을 주신 분들은 '캠달과 함께한 사람들'에서 확인 하실 수 있습니다"
 
-
+    render json: @json
+  end
 
   # Parse json to audo create campus data
   def campus

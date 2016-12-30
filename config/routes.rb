@@ -16,6 +16,12 @@ Shadal::Application.routes.draw do
   #
   # Create campus with json
   post 'campus' => 'application#campus'
+
+  # Return Committers with json
+  get 'committers' => 'application#committers'
+
+  # Return Popup Message with json
+  get 'popup' => 'application#popup'
   #
   ##### Application Controller #####
 
@@ -93,6 +99,9 @@ Shadal::Application.routes.draw do
   #
   # Update Position for active admin
   get 'update_position'  => 'admin/menus#update_position'
+
+  # Remove All Menus
+  get 'remove_all_menus' => 'admin/menus#remove_all_menus'
   #
   ##### Active admin #####
 

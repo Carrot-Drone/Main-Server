@@ -58,6 +58,10 @@ ActiveAdmin.register Menu do
     link_to "Update Position", :action => "update_position", :restaurant_id => params[:restaurant_id]
   end
 
+  action_item only:[:index] do
+    link_to "Remove all menus", :action => "remove_all_menus", :restaurant_id => params[:restaurant_id]
+  end
+
   sidebar "Back to", only: [:index] do
     ul do
       res = Restaurant.find(params[:restaurant_id])
@@ -106,6 +110,17 @@ ActiveAdmin.register Menu do
       redirect_to :back
     end
 
+    def remove_all_menus
+      res_id = params[:restaurant_id]
+      res = Restaurant.find(res_id)
+      menus = res.menus
+
+      menus.each do |menu|
+        menu.destroy
+      end
+
+      redirect_to :back
+    end
 
     private
     # Use callbacks to share common setup or constraints between actions.
