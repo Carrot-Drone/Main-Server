@@ -17,16 +17,16 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: shadal 
+  database: campusdal
   pool: 5
-  username: shadal 
-  password: shadal
+  username: campusdal
+  password: campusdal
 
 production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: shadal 
+  database: campusdal
   pool: 5
-  username: shadal 
-  password: shadal
+  username: campusdal
+  password: campusdal
